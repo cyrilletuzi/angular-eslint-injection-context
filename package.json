@@ -1,0 +1,30 @@
+{
+  "name": "angular-eslint-injection-context",
+  "version": "0.0.1",
+  "description": "Angular injection context lint rules for ESLint",
+  "keywords": [
+    "angular",
+    "eslint"
+  ],
+  "homepage": "https://github.com/cyrilletuzi/angular-eslint-injection-context#readme",
+  "bugs": {
+    "url": "https://github.com/cyrilletuzi/angular-eslint-injection-context/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyrilletuzi/angular-eslint-injection-context.git"
+  },
+  "license": "MIT",
+  "author": "Cyrille Tuzi",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
