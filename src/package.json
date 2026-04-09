@@ -17,11 +17,11 @@
   "license": "MIT",
   "author": "Cyrille Tuzi",
   "type": "commonjs",
-  "main": "dist/index.js",
+  "main": "index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./index.d.ts",
+      "default": "./index.js"
     }
   },
   "peerDependencies": {

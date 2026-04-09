@@ -17,15 +17,8 @@
   "license": "MIT",
   "author": "Cyrille Tuzi",
   "type": "commonjs",
-  "main": "dist/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
   "scripts": {
-    "build": "tsc && cp src/package.json dist/package.json",
+    "build": "rm -rf dist && tsc && cp src/package.json dist/package.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
