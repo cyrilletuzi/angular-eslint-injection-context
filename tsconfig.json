@@ -3,6 +3,7 @@
     "rootDir": "./src",
     "outDir": "dist",
     "module": "node20",
+    "resolveJsonModule": true,
     "target": "es2024",
     "lib": [
       "es2024"
@@ -20,7 +21,7 @@
     "noImplicitOverride": true,
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true
+    // "verbatimModuleSyntax": true,
+    // "erasableSyntaxOnly": true
   }
 }
