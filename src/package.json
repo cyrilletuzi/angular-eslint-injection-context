@@ -24,18 +24,10 @@
       "default": "./dist/index.js"
     }
   },
-  "scripts": {
-    "build": "tsc && cp src/package.json dist/package.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "@types/node": "^24.12.2",
-    "eslint": "^10.2.0",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.1"
-  },
-  "dependencies": {
-    "@angular-eslint/utils": "^21.3.1",
-    "@typescript-eslint/utils": "^8.58.1"
+  "peerDependencies": {
+    "@typescript-eslint/utils": "^7.11.0 || ^8.0.0",
+    "@angular-eslint/utils": "^21.0.0",
+    "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0",
+    "typescript": "*"
   }
 }
