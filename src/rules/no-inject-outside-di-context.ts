@@ -82,7 +82,7 @@ export const rule = createRule({
     },
     docs: {
       description: `Ensures that \`inject()\` is called in an injection context`,
-      recommended: true
+      recommended: true,
     },
     schema: [],
     defaultOptions: [],
