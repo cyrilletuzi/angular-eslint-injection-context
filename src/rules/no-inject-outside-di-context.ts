@@ -2,7 +2,7 @@ import type { RuleDefinition } from '@eslint/core';
 import { ASTUtils } from '@angular-eslint/utils';
 import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
 
-export const RULE_NAME = 'no-inject-outside-di-context';
+export const ruleName = 'no-inject-outside-di-context';
 
 const INJECT_DOC = 'https://angular.dev/api/core/inject';
 const DEPENDENCY_INJECTION_CONTEXT_DOC =
@@ -73,7 +73,7 @@ function getNearestNodeWithoutCallExpressionInBetweenFrom<
   return null;
 }
 
-export const rule: RuleDefinition = {
+export const ruleDefinition: RuleDefinition = {
   meta: {
     type: 'problem',
     messages: {

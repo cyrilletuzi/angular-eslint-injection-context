@@ -1,5 +1,5 @@
 import type { Plugin, ConfigObject } from "@eslint/core";
-import { rule as noInjectOutsideDiContext } from "./rules/no-inject-outside-di-context.js";
+import * as noInjectOutsideDiContext from "./rules/no-inject-outside-di-context.js";
 
 const { name, version } =
   // `import`ing here would bypass the TSConfig's `"rootDir": "src"`
@@ -14,16 +14,16 @@ const plugin = {
   },
   meta: { name, version },
   rules: {
-    "no-inject-outside-di-context": noInjectOutsideDiContext,
+    [noInjectOutsideDiContext.ruleName]: noInjectOutsideDiContext.ruleDefinition,
   },
 } satisfies Plugin;
 
 const recommended: ConfigObject = {
   plugins: {
-    "angular-eslint-injection-context": plugin
+    [name]: plugin
   },
   rules: {
-    "angular-eslint-injection-context/no-inject-outside-di-context": "error"
+    [`${name}/${noInjectOutsideDiContext.ruleName}`]: "error"
   },
 };
 
