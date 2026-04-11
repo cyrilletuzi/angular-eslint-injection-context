@@ -45,3 +45,9 @@ module.exports = defineConfig({
   rules: {},
 });
 ```
+
+## Rules
+
+| Rule | in recommended |
+|---|---|
+| [no-inject-outside-di-context](https://github.com/cyrilletuzi/angular-eslint/blob/feat/eslint-plugin/no-inject-outside-di-context/packages/eslint-plugin/docs/rules/no-inject-outside-di-context.md) | ✅ |
