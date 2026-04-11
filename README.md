@@ -24,7 +24,6 @@ npm install angular-eslint-injection-context --save-dev
 const eslint = require("@eslint/js");
 const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
-const angulareslint = require("angular-eslint");
 const angulareslintinjectioncontext = require("angular-eslint-injection-context"); // ⬅️ add this
 
 module.exports = defineConfig({
@@ -38,16 +37,36 @@ module.exports = defineConfig({
     eslint.configs.recommended,
     tseslint.configs.strictTypeChecked,
     tseslint.configs.stylisticTypeChecked,
-    angulareslint.configs.tsRecommended,
     angulareslintinjectioncontext.configs.recommended // ⬅️ add this
   ],
-  processor: angulareslint.processInlineTemplates,
   rules: {},
 });
 ```
 
 ## Rules
 
-| Rule | in recommended |
+| Rule & documentation | in recommended |
 |---|---|
 | [no-inject-outside-di-context](https://github.com/cyrilletuzi/angular-eslint/blob/feat/eslint-plugin/no-inject-outside-di-context/packages/eslint-plugin/docs/rules/no-inject-outside-di-context.md) | ✅ |
+
+## FAQ
+
+> Why not in Angular ESLint?
+
+I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now. So I decided to publish the rule by myself.
+
+> Is Angular ESLint required?
+
+No. When extracting the rule in its own repository, I took the opportunity to only depend on TypeScript ESLint.
+
+> Will there be other rules?
+
+Yes, very probably. `inject()` is not the only function requiring an injection context, which is becoming a very central concept in latest Angular versions.
+
+> Where are the tests?
+
+The tests are already done and passing in the Angular ESLint [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892). I may migrate them here later, but it takes time and would not provide much value.
+
+## License
+
+MIT
