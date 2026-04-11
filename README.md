@@ -15,3 +15,39 @@ ESLint rules for Angular injection context.
 
 > [!NOTE]
 > It probably works with older versions, but it is not tested and requires to [override dependencies](https://docs.npmjs.com/cli/configuring-npm/package-json#overrides)
+
+## Getting started
+
+1. Installation
+
+```bash
+npm install angular-eslint-injection-context --save-dev
+```
+
+2. ESLint flat configuration (`eslint.config.js` or equivalent)
+
+```js
+const eslint = require("@eslint/js");
+const { defineConfig } = require("eslint/config");
+const tseslint = require("typescript-eslint");
+const angulareslint = require("angular-eslint");
+const angulareslintinjectioncontext = require("angular-eslint-injection-context"); // ⬅️ add this
+
+module.exports = defineConfig({
+  files: ["**/*.ts"],
+  languageOptions: {
+    parserOptions: {
+      projectService: true,
+    },
+  },
+  extends: [
+    eslint.configs.recommended,
+    tseslint.configs.strictTypeChecked,
+    tseslint.configs.stylisticTypeChecked,
+    angulareslint.configs.tsRecommended,
+    angulareslintinjectioncontext.configs.recommended // ⬅️ add this
+  ],
+  processor: angulareslint.processInlineTemplates,
+  rules: {},
+});
+```
