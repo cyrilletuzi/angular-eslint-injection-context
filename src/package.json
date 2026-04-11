@@ -25,9 +25,6 @@
     }
   },
   "peerDependencies": {
-    "@typescript-eslint/utils": "^8.0.0",
-    "@angular-eslint/utils": "^21.0.0",
-    "eslint": "^10.0.0",
-    "typescript": "~5.9.0"
+    "@typescript-eslint/utils": "^8.0.0"
   }
 }

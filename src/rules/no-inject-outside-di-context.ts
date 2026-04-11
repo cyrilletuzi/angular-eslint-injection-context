@@ -1,6 +1,7 @@
 import type { RuleDefinition } from '@eslint/core';
-import { ASTUtils } from '@angular-eslint/utils';
 import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
+import { findNearestAncestorOf } from '../utils/find-nearest-ancestor-of';
+import { findAngularClassDecorator } from '../utils/find-angular-class-decorator';
 
 export const ruleName = 'no-inject-outside-di-context';
 
@@ -47,31 +48,6 @@ const functionsWithInjectionContext: readonly string[] = [
   // see https://angular.dev/api/router/withViewTransitions
   'withViewTransitions',
 ];
-
-/**
- * Same as `ASTUtils.getNearestNodeFrom()`,
- * but returns `null` if there is a `CallExpression` during traversal.
- * This is needed for this rule because the injection context is lost when inside a callback.
- */
-function getNearestNodeWithoutCallExpressionInBetweenFrom<
-  T extends TSESTree.Node,
->(
-  { parent }: TSESTree.Node,
-  predicate: (parent: TSESTree.Node) => parent is T,
-): T | null {
-  while (parent && parent.type !== AST_NODE_TYPES.Program) {
-    if (parent.type === AST_NODE_TYPES.CallExpression) {
-      return null;
-    }
-    if (predicate(parent)) {
-      return parent;
-    }
-
-    parent = parent.parent;
-  }
-
-  return null;
-}
 
 export const ruleDefinition: RuleDefinition = {
   meta: {
@@ -132,15 +108,15 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
 
 function isInAngularClassInitialization(node: TSESTree.Node): boolean {
   // Start with field initializer, as it is the most common case, and it does not require traversal
-  if (ASTUtils.isPropertyDefinition(node) || isInProperty(node) || isInConstructor(node)) {
-    const classDeclaration = ASTUtils.getNearestNodeFrom(
+  if (node.type === AST_NODE_TYPES.PropertyDefinition || isInProperty(node) || isInConstructor(node)) {
+    const classDeclaration = findNearestAncestorOf(
       node,
-      ASTUtils.isClassDeclaration,
+      (node) => node.type === AST_NODE_TYPES.ClassDeclaration,
     );
 
     if (
       classDeclaration &&
-      ASTUtils.getAngularClassDecorator(classDeclaration)
+      findAngularClassDecorator(classDeclaration)
     ) {
       return true;
     }
@@ -149,9 +125,10 @@ function isInAngularClassInitialization(node: TSESTree.Node): boolean {
 }
 
 function isInProperty(node: TSESTree.Node): boolean {
-  const propertyDefinition = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const propertyDefinition = findNearestAncestorOf(
     node,
-    ASTUtils.isPropertyDefinition,
+    (node) => node.type === AST_NODE_TYPES.PropertyDefinition,
+    { notInCallback: true },
   );
   if (propertyDefinition) {
     return true;
@@ -160,9 +137,10 @@ function isInProperty(node: TSESTree.Node): boolean {
 }
 
 function isInConstructor(node: TSESTree.Node): boolean {
-  const methodDefinition = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const methodDefinition = findNearestAncestorOf(
     node,
-    ASTUtils.isMethodDefinition,
+    (node) => node.type === AST_NODE_TYPES.MethodDefinition,
+    { notInCallback: true },
   );
   if (methodDefinition?.kind === 'constructor') {
     return true;
@@ -172,9 +150,10 @@ function isInConstructor(node: TSESTree.Node): boolean {
 
 function isInFunctionTypeWithInjectionContext(node: TSESTree.Node): boolean {
   // Check the variable type is an accepted type like `CanActivateFn`
-  const variableDeclarator = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const variableDeclarator = findNearestAncestorOf(
     node,
     (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
+    { notInCallback: true },
   );
 
   const typeAnnotation = variableDeclarator?.id.typeAnnotation?.typeAnnotation;
@@ -193,9 +172,10 @@ function isInFunctionTypeWithInjectionContext(node: TSESTree.Node): boolean {
 
 function isInMethodWithInjectionContext(node: TSESTree.Node): boolean {
   // Check if the method name is one of the accepted ones like `canActivate`
-  const methodDefinition = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const methodDefinition = findNearestAncestorOf(
     node,
-    ASTUtils.isMethodDefinition,
+    (node) => node.type === AST_NODE_TYPES.MethodDefinition,
+    { notInCallback: true },
   );
 
   if (
@@ -206,14 +186,14 @@ function isInMethodWithInjectionContext(node: TSESTree.Node): boolean {
   }
 
   // Check if we are in an injectable Angular class
-  const classDeclaration = ASTUtils.getNearestNodeFrom(
+  const classDeclaration = findNearestAncestorOf(
     node,
-    ASTUtils.isClassDeclaration,
+    (node) => node.type === AST_NODE_TYPES.ClassDeclaration,
   );
 
   if (
     !classDeclaration ||
-    !ASTUtils.getAngularClassDecorator(classDeclaration)
+    !findAngularClassDecorator(classDeclaration)
   ) {
     return false;
   }
@@ -240,9 +220,10 @@ function isInMethodWithInjectionContext(node: TSESTree.Node): boolean {
 
 function isInRoute(node: TSESTree.Node): boolean {
   // Check the variable type is `Route` or `Routes`
-  const variableDeclarator = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const variableDeclarator = findNearestAncestorOf(
     node,
     (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
+    { notInCallback: true },
   );
 
   const typeAnnotation = variableDeclarator?.id.typeAnnotation?.typeAnnotation;
@@ -260,9 +241,10 @@ function isInRoute(node: TSESTree.Node): boolean {
 }
 
 function isInFactoryFunction(node: TSESTree.Node): boolean {
-  const property = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const property = findNearestAncestorOf(
     node,
-    ASTUtils.isProperty,
+    (node) => node.type === AST_NODE_TYPES.Property,
+    { notInCallback: true },
   );
 
   if (
@@ -281,7 +263,7 @@ function isPropertyInInjectionTokenFactory(
   property: TSESTree.PropertyComputedName | TSESTree.PropertyNonComputedName,
 ): boolean {
   // Check the property is inside a `new InjectionToken()`
-  const newExpression = ASTUtils.getNearestNodeFrom(
+  const newExpression = findNearestAncestorOf(
     property,
     (node) => node.type === AST_NODE_TYPES.NewExpression,
   );
@@ -308,9 +290,9 @@ function isPropertyInProviderFactory(
   }
 
   // Check the object contains another property called `provide`
-  const objectExpression = ASTUtils.getNearestNodeFrom(
+  const objectExpression = findNearestAncestorOf(
     property,
-    ASTUtils.isObjectExpression,
+    (node) => node.type === AST_NODE_TYPES.ObjectExpression,
   );
 
   const provideProperty = objectExpression?.properties.find(
@@ -339,16 +321,16 @@ function isPropertyInInjectableFactory(
   }
 
   // Check the property is inside an `Injectable()`
-  const classDeclaration = ASTUtils.getNearestNodeFrom(
+  const classDeclaration = findNearestAncestorOf(
     property,
-    ASTUtils.isClassDeclaration,
+    (node) => node.type === AST_NODE_TYPES.ClassDeclaration,
   );
 
   if (!classDeclaration) {
     return false;
   }
 
-  if (ASTUtils.getAngularClassDecorator(classDeclaration) === 'Injectable') {
+  if (findAngularClassDecorator(classDeclaration) === 'Injectable') {
     return true;
   }
 
@@ -356,9 +338,9 @@ function isPropertyInInjectableFactory(
 }
 
 function isInFunctionWithInjectionContext(node: TSESTree.Node): boolean {
-  const callExpression = ASTUtils.getNearestNodeFrom(
+  const callExpression = findNearestAncestorOf(
     node,
-    ASTUtils.isCallExpression,
+    (node) => node.type === AST_NODE_TYPES.CallExpression,
   );
 
   if (
@@ -374,9 +356,10 @@ function isInFunctionWithInjectionContext(node: TSESTree.Node): boolean {
 
 function isInjectionContextAsserted(node: TSESTree.Node): boolean {
   // Check there is an `assertInInjectionContext` call in the same block
-  const blockStatement = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const blockStatement = findNearestAncestorOf(
     node,
     (node) => node.type === AST_NODE_TYPES.BlockStatement,
+    { notInCallback: true },
   );
 
   const assertCall = blockStatement?.body.find(
@@ -412,12 +395,13 @@ function isInjectionContextAsserted(node: TSESTree.Node): boolean {
 
 function isAfterAwait(node: TSESTree.Node): boolean {
   // Check there is an `await` expression in the same block, before the node
-  const blockStatement = getNearestNodeWithoutCallExpressionInBetweenFrom(
+  const blockStatement = findNearestAncestorOf(
     node,
     (node) => node.type === AST_NODE_TYPES.BlockStatement,
+    { notInCallback: true },
   );
 
-  if (blockStatement === null) {
+  if (blockStatement === undefined) {
     return false;
   }
 
