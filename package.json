@@ -18,7 +18,7 @@
   "author": "Cyrille Tuzi",
   "type": "commonjs",
   "scripts": {
-    "build": "rm -rf dist && tsc && cp src/package.json dist/package.json",
+    "build": "rm -rf dist && tsc && cp src/package.json dist/package.json && cp src/LICENSE dist/LICENSE",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
