@@ -1,57 +1,57 @@
-import type { RuleDefinition } from '@eslint/core';
-import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
-import { findNearestAncestorOf } from '../utils/find-nearest-ancestor-of';
-import { findAngularClassDecorator } from '../utils/find-angular-class-decorator';
+import type { RuleDefinition } from "@eslint/core";
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
+import { findAngularClassDecorator } from "../utils/find-angular-class-decorator";
+import { findNearestAncestorOf } from "../utils/find-nearest-ancestor-of";
 
-export const ruleName = 'no-inject-outside-di-context';
+export const ruleName = "no-inject-outside-di-context";
 
-const INJECT_DOC = 'https://angular.dev/api/core/inject';
+const INJECT_DOC = "https://angular.dev/api/core/inject";
 const DEPENDENCY_INJECTION_CONTEXT_DOC =
-  'https://angular.dev/guide/di/dependency-injection-context';
+  "https://angular.dev/guide/di/dependency-injection-context";
 
 const functionTypesWithInjectionContext: readonly string[] = [
-  'CanActivateFn',
-  'CanActivateChildFn',
-  'CanDeactivateFn',
-  'CanMatchFn',
-  'ResolveFn',
+  "CanActivateFn",
+  "CanActivateChildFn",
+  "CanDeactivateFn",
+  "CanMatchFn",
+  "ResolveFn",
   // see https://github.com/angular/angular/pull/64938
-  'RunGuardsAndResolvers',
+  "RunGuardsAndResolvers",
   // see https://github.com/angular/angular/pull/62133
-  'LoadChildren',
-  'LoadChildrenCallback',
-  'HttpInterceptorFn',
+  "LoadChildren",
+  "LoadChildrenCallback",
+  "HttpInterceptorFn",
   // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
-  'ViewTransitionsFeatureOptions',
+  "ViewTransitionsFeatureOptions",
 ];
 const methodsAndInterfacesWithInjectionContextMap: ReadonlyMap<string, string> =
   new Map<string, string>([
-    ['canActivate', 'CanActivate'],
-    ['canActivateChild', 'CanActivateChild'],
-    ['canDeactivate', 'CanDeactivate'],
-    ['canMatch', 'CanMatch'],
-    ['resolve', 'Resolve'],
-    ['intercept', 'HttpInterceptor'],
+    ["canActivate", "CanActivate"],
+    ["canActivateChild", "CanActivateChild"],
+    ["canDeactivate", "CanDeactivate"],
+    ["canMatch", "CanMatch"],
+    ["resolve", "Resolve"],
+    ["intercept", "HttpInterceptor"],
   ]);
 const methodsWithInjectionContext = Array.from(
   methodsAndInterfacesWithInjectionContextMap.keys(),
 );
 const functionsWithInjectionContext: readonly string[] = [
   // see https://angular.dev/api/core/runInInjectionContext
-  'runInInjectionContext',
+  "runInInjectionContext",
   // see https://angular.dev/api/core/provideAppInitializer
-  'provideAppInitializer',
+  "provideAppInitializer",
   // see https://angular.dev/api/core/providePlatformInitializer
-  'providePlatformInitializer',
+  "providePlatformInitializer",
   // see https://angular.dev/api/core/provideEnvironmentInitializer
-  'provideEnvironmentInitializer',
+  "provideEnvironmentInitializer",
   // see https://angular.dev/api/router/withViewTransitions
-  'withViewTransitions',
+  "withViewTransitions",
 ];
 
 export const ruleDefinition: RuleDefinition = {
   meta: {
-    type: 'problem',
+    type: "problem",
     messages: {
       noInjectOutsideDiContext: `\`inject()\` must be called in an injection context. See more at ${INJECT_DOC} and ${DEPENDENCY_INJECTION_CONTEXT_DOC}`,
     },
@@ -66,7 +66,7 @@ export const ruleDefinition: RuleDefinition = {
       CallExpression(node: TSESTree.CallExpression) {
         if (
           node.callee.type !== AST_NODE_TYPES.Identifier ||
-          node.callee.name !== 'inject' ||
+          node.callee.name !== "inject" ||
           isInInjectionContext(node)
         ) {
           return;
@@ -74,7 +74,7 @@ export const ruleDefinition: RuleDefinition = {
 
         context.report({
           node,
-          messageId: 'noInjectOutsideDiContext',
+          messageId: "noInjectOutsideDiContext",
         });
       },
     };
@@ -142,7 +142,7 @@ function isInConstructor(node: TSESTree.Node): boolean {
     (node) => node.type === AST_NODE_TYPES.MethodDefinition,
     { notInCallback: true },
   );
-  if (methodDefinition?.kind === 'constructor') {
+  if (methodDefinition?.kind === "constructor") {
     return true;
   }
   return false;
@@ -231,7 +231,7 @@ function isInRoute(node: TSESTree.Node): boolean {
   if (
     typeAnnotation?.type === AST_NODE_TYPES.TSTypeReference &&
     typeAnnotation.typeName.type === AST_NODE_TYPES.Identifier &&
-    ['Routes', 'Route'].includes(typeAnnotation.typeName.name) &&
+    ["Routes", "Route"].includes(typeAnnotation.typeName.name) &&
     !isAfterAwait(node)
   ) {
     return true;
@@ -270,7 +270,7 @@ function isPropertyInInjectionTokenFactory(
 
   if (
     newExpression?.callee.type === AST_NODE_TYPES.Identifier &&
-    newExpression.callee.name === 'InjectionToken'
+    newExpression.callee.name === "InjectionToken"
   ) {
     return true;
   }
@@ -284,7 +284,7 @@ function isPropertyInProviderFactory(
   // Check the property is called `useFactory`
   if (
     property.key.type !== AST_NODE_TYPES.Identifier ||
-    property.key.name !== 'useFactory'
+    property.key.name !== "useFactory"
   ) {
     return false;
   }
@@ -299,7 +299,7 @@ function isPropertyInProviderFactory(
     (objectProperty) =>
       objectProperty.type === AST_NODE_TYPES.Property &&
       objectProperty.key.type === AST_NODE_TYPES.Identifier &&
-      objectProperty.key.name === 'provide',
+      objectProperty.key.name === "provide",
   );
 
   if (provideProperty !== undefined) {
@@ -315,7 +315,7 @@ function isPropertyInInjectableFactory(
   // Check the property is called `useFactory`
   if (
     property.key.type !== AST_NODE_TYPES.Identifier ||
-    property.key.name !== 'useFactory'
+    property.key.name !== "useFactory"
   ) {
     return false;
   }
@@ -330,7 +330,7 @@ function isPropertyInInjectableFactory(
     return false;
   }
 
-  if (findAngularClassDecorator(classDeclaration) === 'Injectable') {
+  if (findAngularClassDecorator(classDeclaration) === "Injectable") {
     return true;
   }
 
@@ -365,9 +365,9 @@ function isInjectionContextAsserted(node: TSESTree.Node): boolean {
   const assertCall = blockStatement?.body.find(
     (body) =>
       body.type === AST_NODE_TYPES.ExpressionStatement &&
-      body.expression.type === 'CallExpression' &&
+      body.expression.type === "CallExpression" &&
       body.expression.callee.type === AST_NODE_TYPES.Identifier &&
-      body.expression.callee.name === 'assertInInjectionContext',
+      body.expression.callee.name === "assertInInjectionContext",
   );
 
   if (assertCall !== undefined) {
@@ -380,9 +380,9 @@ function isInjectionContextAsserted(node: TSESTree.Node): boolean {
       body.consequent.type === AST_NODE_TYPES.BlockStatement &&
       body.consequent.body.find((consequentBody) =>
         consequentBody.type === AST_NODE_TYPES.ExpressionStatement &&
-        consequentBody.expression.type === 'CallExpression' &&
+        consequentBody.expression.type === "CallExpression" &&
         consequentBody.expression.callee.type === AST_NODE_TYPES.Identifier &&
-        consequentBody.expression.callee.name === 'assertInInjectionContext',
+        consequentBody.expression.callee.name === "assertInInjectionContext",
       )
   );
 

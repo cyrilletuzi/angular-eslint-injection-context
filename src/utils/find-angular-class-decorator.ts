@@ -1,6 +1,6 @@
 import { AST_NODE_TYPES, ASTUtils, type TSESTree } from "@typescript-eslint/utils";
 
-export type AngularClassDecorator = 'Component' | 'Directive' | 'Injectable' | 'NgModule' | 'Pipe';
+export type AngularClassDecorator = "Component" | "Directive" | "Injectable" | "NgModule" | "Pipe";
 
 /**
  * Checks if a `ClassDeclaration` has an Angular decorator and returns it.
@@ -32,7 +32,7 @@ export function findAngularClassDecorator({ decorators }: TSESTree.ClassDeclarat
     .filter((item) => item !== undefined)
     .find((value: string): value is AngularClassDecorator => {
       const angularClassDecorators: ReadonlySet<AngularClassDecorator> = new Set([
-        'Component', 'Directive', 'Injectable', 'NgModule', 'Pipe'
+        "Component", "Directive", "Injectable", "NgModule", "Pipe"
       ]);
       return angularClassDecorators.has(value as AngularClassDecorator);
     });
