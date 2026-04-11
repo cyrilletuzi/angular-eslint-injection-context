@@ -1,6 +1,6 @@
+import type { RuleDefinition } from '@eslint/core';
 import { ASTUtils } from '@angular-eslint/utils';
 import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
-import { createRule } from '../utils.js';
 
 export const RULE_NAME = 'no-inject-outside-di-context';
 
@@ -73,8 +73,7 @@ function getNearestNodeWithoutCallExpressionInBetweenFrom<
   return null;
 }
 
-export const rule = createRule({
-  name: RULE_NAME,
+export const rule: RuleDefinition = {
   meta: {
     type: 'problem',
     messages: {
@@ -85,7 +84,6 @@ export const rule = createRule({
       recommended: true,
     },
     schema: [],
-    defaultOptions: [],
   },
   create(context) {
     return {
@@ -105,7 +103,7 @@ export const rule = createRule({
       },
     };
   },
-});
+};
 
 function isInInjectionContext(node: TSESTree.Node): boolean {
   const parent: TSESTree.Node | undefined = node.parent;

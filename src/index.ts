@@ -1,4 +1,4 @@
-import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
+import type { Plugin, ConfigObject } from "@eslint/core";
 import { rule as noInjectOutsideDiContext } from "./rules/no-inject-outside-di-context.js";
 
 const { name, version } =
@@ -6,9 +6,9 @@ const { name, version } =
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   require("../package.json") as typeof import("../package.json");
 
-const plugin: FlatConfig.Plugin = {
+const plugin = {
   configs: {
-    get recommended(): FlatConfig.Config {
+    get recommended() {
       return recommended;
     }
   },
@@ -16,9 +16,9 @@ const plugin: FlatConfig.Plugin = {
   rules: {
     "no-inject-outside-di-context": noInjectOutsideDiContext,
   },
-};
+} satisfies Plugin;
 
-const recommended: FlatConfig.Config = {
+const recommended: ConfigObject = {
   plugins: {
     "angular-eslint-injection-context": plugin
   },
