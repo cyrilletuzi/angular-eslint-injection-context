@@ -1,7 +1,7 @@
 import type { RuleDefinition } from "@eslint/core";
 import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
-import { findAngularClassDecorator } from "../utils/find-angular-class-decorator";
-import { findNearestAncestorOf } from "../utils/find-nearest-ancestor-of";
+import { findAngularClassDecorator } from "../utils/angular-class-decorator";
+import { findNearestAncestorOf } from "../utils/ast-traversal";
 
 export const ruleName = "no-inject-outside-di-context";
 
