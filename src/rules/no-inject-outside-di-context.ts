@@ -1,6 +1,7 @@
 import type { RuleDefinition } from "@eslint/core";
 import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
 import { findAngularClassDecorator } from "../utils/angular-class-decorator";
+import { isInAngularClassInitialization } from "../utils/angular-class-initialization";
 import { findNearestAncestorOf } from "../utils/ast-traversal";
 import { isAfterAwait } from "../utils/await-detection";
 
@@ -10,7 +11,7 @@ const INJECT_DOC = "https://angular.dev/api/core/inject";
 const DEPENDENCY_INJECTION_CONTEXT_DOC =
   "https://angular.dev/guide/di/dependency-injection-context";
 
-const functionTypesWithInjectionContext: readonly string[] = [
+export const functionTypesWithInjectionContext: readonly string[] = [
   "CanActivateFn",
   "CanActivateChildFn",
   "CanDeactivateFn",
@@ -104,48 +105,6 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
     return true;
   }
 
-  return false;
-}
-
-function isInAngularClassInitialization(node: TSESTree.Node): boolean {
-  // Start with field initializer, as it is the most common case, and it does not require traversal
-  if (node.type === AST_NODE_TYPES.PropertyDefinition || isInProperty(node) || isInConstructor(node)) {
-    const classDeclaration = findNearestAncestorOf(
-      node,
-      (node) => node.type === AST_NODE_TYPES.ClassDeclaration,
-    );
-
-    if (
-      classDeclaration &&
-      findAngularClassDecorator(classDeclaration)
-    ) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function isInProperty(node: TSESTree.Node): boolean {
-  const propertyDefinition = findNearestAncestorOf(
-    node,
-    (node) => node.type === AST_NODE_TYPES.PropertyDefinition,
-    { notInCallback: true },
-  );
-  if (propertyDefinition) {
-    return true;
-  }
-  return false;
-}
-
-function isInConstructor(node: TSESTree.Node): boolean {
-  const methodDefinition = findNearestAncestorOf(
-    node,
-    (node) => node.type === AST_NODE_TYPES.MethodDefinition,
-    { notInCallback: true },
-  );
-  if (methodDefinition?.kind === "constructor") {
-    return true;
-  }
   return false;
 }
 
