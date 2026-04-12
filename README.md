@@ -59,6 +59,10 @@ I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pul
 
 No. When extracting the rule in its own repository, I took the opportunity to only depend on TypeScript ESLint.
 
+> Is typed linting required?
+
+[Typed linting](https://typescript-eslint.io/getting-started/typed-linting) is not required for now, but it could change in the future if it helps to do better rules.
+
 > Will there be other rules?
 
 Yes, very probably. `inject()` is not the only function requiring an injection context, which is becoming a very central concept in latest Angular versions.
