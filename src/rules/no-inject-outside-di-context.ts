@@ -6,8 +6,7 @@ import { isInFunctionTypeWithInjectionContext } from "../utils/angular-function-
 import { isInFunctionWithInjectionContext } from "../utils/angular-function-with-injection-context";
 import { isInjectionContextAsserted } from "../utils/angular-injection-context-assertion";
 import { isInMethodWithInjectionContext } from "../utils/angular-method-with-injection-context";
-import { findNearestAncestorOf } from "../utils/ast-traversal";
-import { isAfterAwait } from "../utils/await-detection";
+import { isInRoute } from "../utils/angular-route";
 
 export const ruleName = "no-inject-outside-di-context";
 
@@ -15,39 +14,7 @@ export const INJECT_DOC = "https://angular.dev/api/core/inject";
 export const DEPENDENCY_INJECTION_CONTEXT_DOC =
   "https://angular.dev/guide/di/dependency-injection-context";
 
-export const ruleDefinition: RuleDefinition = {
-  meta: {
-    type: "problem",
-    messages: {
-      noInjectOutsideDiContext: `\`inject()\` must be called in an injection context. See more at ${INJECT_DOC} and ${DEPENDENCY_INJECTION_CONTEXT_DOC}`,
-    },
-    docs: {
-      description: `Ensures that \`inject()\` is called in an injection context`,
-      recommended: true,
-    },
-    schema: [],
-  },
-  create(context) {
-    return {
-      CallExpression(node: TSESTree.CallExpression) {
-        if (
-          node.callee.type !== AST_NODE_TYPES.Identifier ||
-          node.callee.name !== "inject" ||
-          isInInjectionContext(node)
-        ) {
-          return;
-        }
-
-        context.report({
-          node,
-          messageId: "noInjectOutsideDiContext",
-        });
-      },
-    };
-  },
-};
-
-function isInInjectionContext(node: TSESTree.Node): boolean {
+function isInjectInInjectionContext(node: TSESTree.Node): boolean {
   const parent: TSESTree.Node | undefined = node.parent;
 
   if (
@@ -72,24 +39,34 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
   return false;
 }
 
-function isInRoute(node: TSESTree.Node): boolean {
-  // Check the variable type is `Route` or `Routes`
-  const variableDeclarator = findNearestAncestorOf(
-    node,
-    (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
-    { notInCallback: true },
-  );
+export const ruleDefinition: RuleDefinition = {
+  meta: {
+    type: "problem",
+    messages: {
+      noInjectOutsideDiContext: `\`inject()\` must be called in an injection context. See more at ${INJECT_DOC} and ${DEPENDENCY_INJECTION_CONTEXT_DOC}`,
+    },
+    docs: {
+      description: `Ensures that \`inject()\` is called in an injection context`,
+      recommended: true,
+    },
+    schema: [],
+  },
+  create(context) {
+    return {
+      CallExpression(node: TSESTree.CallExpression) {
+        if (
+          node.callee.type !== AST_NODE_TYPES.Identifier ||
+          node.callee.name !== "inject" ||
+          isInjectInInjectionContext(node)
+        ) {
+          return;
+        }
 
-  const typeAnnotation = variableDeclarator?.id.typeAnnotation?.typeAnnotation;
-
-  if (
-    typeAnnotation?.type === AST_NODE_TYPES.TSTypeReference &&
-    typeAnnotation.typeName.type === AST_NODE_TYPES.Identifier &&
-    ["Routes", "Route"].includes(typeAnnotation.typeName.name) &&
-    !isAfterAwait(node)
-  ) {
-    return true;
-  }
-
-  return false;
-}
+        context.report({
+          node,
+          messageId: "noInjectOutsideDiContext",
+        });
+      },
+    };
+  },
+};
