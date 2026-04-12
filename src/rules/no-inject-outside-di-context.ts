@@ -3,6 +3,7 @@ import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { findAngularClassDecorator } from "../utils/angular-class-decorator";
 import { isInAngularClassInitialization } from "../utils/angular-class-initialization";
 import { isInFactoryFunction } from "../utils/angular-factory";
+import { isInFunctionWithInjectionContext } from "../utils/angular-function-with-injection-context";
 import { isInjectionContextAsserted } from "../utils/angular-injection-context-assertion";
 import { findNearestAncestorOf } from "../utils/ast-traversal";
 import { isAfterAwait } from "../utils/await-detection";
@@ -40,18 +41,6 @@ const methodsAndInterfacesWithInjectionContextMap: ReadonlyMap<string, string> =
 const methodsWithInjectionContext = Array.from(
   methodsAndInterfacesWithInjectionContextMap.keys(),
 );
-export const functionsWithInjectionContext: readonly string[] = [
-  // see https://angular.dev/api/core/runInInjectionContext
-  "runInInjectionContext",
-  // see https://angular.dev/api/core/provideAppInitializer
-  "provideAppInitializer",
-  // see https://angular.dev/api/core/providePlatformInitializer
-  "providePlatformInitializer",
-  // see https://angular.dev/api/core/provideEnvironmentInitializer
-  "provideEnvironmentInitializer",
-  // see https://angular.dev/api/router/withViewTransitions
-  "withViewTransitions",
-];
 
 export const ruleDefinition: RuleDefinition = {
   meta: {
@@ -100,7 +89,7 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
       // Factories
       isInFactoryFunction(parent) ||
       // Special functions like `runInInjectionContext` and some application providers
-      isInFunctionWithInjectionContext(parent) ||
+      isInFunctionWithInjectionContext(parent, { withAppInitializationFunctions: true }) ||
       // Custom injectable functions where context is asserted
       isInjectionContextAsserted(parent))
   ) {
@@ -194,23 +183,6 @@ function isInRoute(node: TSESTree.Node): boolean {
     typeAnnotation?.type === AST_NODE_TYPES.TSTypeReference &&
     typeAnnotation.typeName.type === AST_NODE_TYPES.Identifier &&
     ["Routes", "Route"].includes(typeAnnotation.typeName.name) &&
-    !isAfterAwait(node)
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-function isInFunctionWithInjectionContext(node: TSESTree.Node): boolean {
-  const callExpression = findNearestAncestorOf(
-    node,
-    (node) => node.type === AST_NODE_TYPES.CallExpression,
-  );
-
-  if (
-    callExpression?.callee.type === AST_NODE_TYPES.Identifier &&
-    functionsWithInjectionContext.includes(callExpression.callee.name) &&
     !isAfterAwait(node)
   ) {
     return true;
