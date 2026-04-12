@@ -2,11 +2,11 @@ import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { findNearestAncestorOf } from "./ast-traversal";
 import { isAfterAwait } from "./await-detection";
 
-export function isInFunctionWithInjectionContext(node: TSESTree.Node, { withAppInitializationFunctions = false } = {}): boolean {
-  const functionsNamesSet: ReadonlySet<string> = new Set([
+export function isInFunctionWithInjectionContext(node: TSESTree.Node, { includeAppInitializationFunctions = false } = {}): boolean {
+  const functionsWithInjectionContext: ReadonlySet<string> = new Set([
     // see https://angular.dev/api/core/runInInjectionContext
     "runInInjectionContext",
-    ...(withAppInitializationFunctions ? [
+    ...(includeAppInitializationFunctions ? [
       // see https://angular.dev/api/core/provideAppInitializer
       "provideAppInitializer",
       // see https://angular.dev/api/core/providePlatformInitializer
@@ -25,7 +25,7 @@ export function isInFunctionWithInjectionContext(node: TSESTree.Node, { withAppI
 
   if (
     callExpression?.callee.type === AST_NODE_TYPES.Identifier &&
-    functionsNamesSet.has(callExpression.callee.name) &&
+    functionsWithInjectionContext.has(callExpression.callee.name) &&
     !isAfterAwait(node)
   ) {
     return true;

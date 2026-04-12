@@ -3,6 +3,7 @@ import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { findAngularClassDecorator } from "../utils/angular-class-decorator";
 import { isInAngularClassInitialization } from "../utils/angular-class-initialization";
 import { isInFactoryFunction } from "../utils/angular-factory";
+import { isInFunctionTypeWithInjectionContext } from "../utils/angular-function-type-with-injection-context";
 import { isInFunctionWithInjectionContext } from "../utils/angular-function-with-injection-context";
 import { isInjectionContextAsserted } from "../utils/angular-injection-context-assertion";
 import { findNearestAncestorOf } from "../utils/ast-traversal";
@@ -14,21 +15,6 @@ const INJECT_DOC = "https://angular.dev/api/core/inject";
 const DEPENDENCY_INJECTION_CONTEXT_DOC =
   "https://angular.dev/guide/di/dependency-injection-context";
 
-export const functionTypesWithInjectionContext: readonly string[] = [
-  "CanActivateFn",
-  "CanActivateChildFn",
-  "CanDeactivateFn",
-  "CanMatchFn",
-  "ResolveFn",
-  // see https://github.com/angular/angular/pull/64938
-  "RunGuardsAndResolvers",
-  // see https://github.com/angular/angular/pull/62133
-  "LoadChildren",
-  "LoadChildrenCallback",
-  "HttpInterceptorFn",
-  // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
-  "ViewTransitionsFeatureOptions",
-];
 const methodsAndInterfacesWithInjectionContextMap: ReadonlyMap<string, string> =
   new Map<string, string>([
     ["canActivate", "CanActivate"],
@@ -38,7 +24,7 @@ const methodsAndInterfacesWithInjectionContextMap: ReadonlyMap<string, string> =
     ["resolve", "Resolve"],
     ["intercept", "HttpInterceptor"],
   ]);
-const methodsWithInjectionContext = Array.from(
+export const methodsWithInjectionContext = Array.from(
   methodsAndInterfacesWithInjectionContextMap.keys(),
 );
 
@@ -83,37 +69,15 @@ function isInInjectionContext(node: TSESTree.Node): boolean {
     (isInAngularClassInitialization(parent) ||
       // Special contexts (guard, resolver and interceptor) are the second most common case
       // 1. modern function syntax, 2. legacy class syntax, 3. directly inline inside a route
-      isInFunctionTypeWithInjectionContext(parent) ||
+      isInFunctionTypeWithInjectionContext(parent, { includeAppInitializationFunctions: true }) ||
       isInMethodWithInjectionContext(parent) ||
       isInRoute(parent) ||
       // Factories
       isInFactoryFunction(parent) ||
       // Special functions like `runInInjectionContext` and some application providers
-      isInFunctionWithInjectionContext(parent, { withAppInitializationFunctions: true }) ||
+      isInFunctionWithInjectionContext(parent, { includeAppInitializationFunctions: true }) ||
       // Custom injectable functions where context is asserted
       isInjectionContextAsserted(parent))
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-function isInFunctionTypeWithInjectionContext(node: TSESTree.Node): boolean {
-  // Check the variable type is an accepted type like `CanActivateFn`
-  const variableDeclarator = findNearestAncestorOf(
-    node,
-    (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
-    { notInCallback: true },
-  );
-
-  const typeAnnotation = variableDeclarator?.id.typeAnnotation?.typeAnnotation;
-
-  if (
-    typeAnnotation?.type === AST_NODE_TYPES.TSTypeReference &&
-    typeAnnotation.typeName.type === AST_NODE_TYPES.Identifier &&
-    functionTypesWithInjectionContext.includes(typeAnnotation.typeName.name) &&
-    !isAfterAwait(node)
   ) {
     return true;
   }
