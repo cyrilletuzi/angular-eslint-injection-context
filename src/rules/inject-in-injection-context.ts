@@ -13,7 +13,7 @@ export const ruleDefinition: RuleDefinition = {
       [messageId]: `\`inject()\` must be called in an injection context. See more at https://angular.dev/api/core/inject and ${INJECTION_CONTEXT_DOC_LINK}`,
     },
     docs: {
-      description: `Checks that functions requiring an injection context are indeed called in an injection context, or are called with an explicit injection context as an argument.`,
+      description: `Checks that \`inject()\` is called in an injection context.`,
       recommended: true,
     },
     schema: [],

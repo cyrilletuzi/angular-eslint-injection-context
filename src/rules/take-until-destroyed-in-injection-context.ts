@@ -1,7 +1,6 @@
 import type { RuleDefinition } from "@eslint/core";
 import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
-import { INJECTION_CONTEXT_DOC_LINK } from "../utils/documentation-links";
 
 export const ruleName = "take-until-destroyed-in-injection-context";
 const messageId = "takeUntilDestroyedInInjectionContext";
@@ -10,10 +9,10 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`takeUntilDestroyed()\` must be called in an injection context, or a \`DestroyRef\` must be provided as the first argument. Documentation: https://angular.dev/api/core/rxjs-interop/takeUntilDestroyed, https://angular.dev/api/core/rxjs-interop/takeUntilDestroyed and ${INJECTION_CONTEXT_DOC_LINK}`,
+      [messageId]: `\`takeUntilDestroyed()\` must be called in an injection context, or a \`DestroyRef\` must be provided as the first argument. Documentation: https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed`,
     },
     docs: {
-      description: `Checks that functions requiring an injection context are indeed called in an injection context, or are called with an explicit injection context as an argument.`,
+      description: `Checks that \`takeUntilDestroyed()\` is called in an injection context, or is called with an explicit \`DestroyRef\` as an argument.`,
       recommended: true,
     },
     schema: [],
@@ -26,7 +25,7 @@ export const ruleDefinition: RuleDefinition = {
         }
 
         /* Takes a `DestroyRef` as first argument: `takeUntilDestroyed(this.destroyRef)` */
-        if (node.arguments.length === 0 && !isInInjectionContext(node)) {
+        if (node.arguments.length < 1 && !isInInjectionContext(node)) {
           context.report({
             node,
             messageId,
