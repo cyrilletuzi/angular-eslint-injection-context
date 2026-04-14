@@ -25,7 +25,7 @@ export const ruleDefinition: RuleDefinition = {
           return;
         }
 
-        /* Takes an `Injector` in second argument object: `toObservable(source, { injector })` */
+        /* Takes an `Injector` in argument: `rxResource({ stream, injector })` */
         if (!isCalledWithProperty(node, 0, 'injector') && !isInInjectionContext(node)) {
           context.report({
             node,
