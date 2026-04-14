@@ -1,4 +1,4 @@
-# no-inject-outside-di-context
+# inject-in-injection-context
 
 Prevent to use `inject()` outside an injection context, to avoid the `NG0203` runtime error.
 
