@@ -1,6 +1,7 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
 import * as effectInInjectionContext from "./rules/effect-in-injection-context.js";
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
+import * as pendingUntilEventInInjectionContext from "./rules/pending-until-event-in-injection-context.js";
 import * as resourceInInjectionContext from "./rules/resource-in-injection-context.js";
 import * as rxResourceInInjectionContext from "./rules/rx-resource-in-injection-context.js";
 import * as signalFormInInjectionContext from "./rules/signal-form-in-injection-context.js";
@@ -26,6 +27,7 @@ const plugin = {
     [resourceInInjectionContext.ruleName]: resourceInInjectionContext.ruleDefinition,
     [effectInInjectionContext.ruleName]: effectInInjectionContext.ruleDefinition,
     [signalFormInInjectionContext.ruleName]: signalFormInInjectionContext.ruleDefinition,
+    [pendingUntilEventInInjectionContext.ruleName]: pendingUntilEventInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
@@ -41,6 +43,7 @@ const recommended: ConfigObject = {
     [`${name}/${resourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${effectInInjectionContext.ruleName}`]: "error",
     [`${name}/${signalFormInInjectionContext.ruleName}`]: "error",
+    [`${name}/${pendingUntilEventInInjectionContext.ruleName}`]: "error",
   },
 };
 

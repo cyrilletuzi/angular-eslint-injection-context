@@ -54,6 +54,7 @@ module.exports = defineConfig({
 | [resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [effect-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [signal-form-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [pending-until-event-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 
 ## FAQ
 
