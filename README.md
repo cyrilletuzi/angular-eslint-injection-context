@@ -52,6 +52,7 @@ module.exports = defineConfig({
 | [to-observable-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [effect-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 
 ## FAQ
 

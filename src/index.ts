@@ -1,4 +1,5 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
+import * as effectInInjectionContext from "./rules/effect-in-injection-context.js";
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
 import * as resourceInInjectionContext from "./rules/resource-in-injection-context.js";
 import * as rxResourceInInjectionContext from "./rules/rx-resource-in-injection-context.js";
@@ -22,6 +23,7 @@ const plugin = {
     [toObservableInInjectionContext.ruleName]: toObservableInInjectionContext.ruleDefinition,
     [rxResourceInInjectionContext.ruleName]: rxResourceInInjectionContext.ruleDefinition,
     [resourceInInjectionContext.ruleName]: resourceInInjectionContext.ruleDefinition,
+    [effectInInjectionContext.ruleName]: effectInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
@@ -35,6 +37,7 @@ const recommended: ConfigObject = {
     [`${name}/${toObservableInInjectionContext.ruleName}`]: "error",
     [`${name}/${rxResourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${resourceInInjectionContext.ruleName}`]: "error",
+    [`${name}/${effectInInjectionContext.ruleName}`]: "error",
   },
 };
 
