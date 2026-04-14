@@ -3,6 +3,7 @@ import * as effectInInjectionContext from "./rules/effect-in-injection-context.j
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
 import * as resourceInInjectionContext from "./rules/resource-in-injection-context.js";
 import * as rxResourceInInjectionContext from "./rules/rx-resource-in-injection-context.js";
+import * as signalFormInInjectionContext from "./rules/signal-form-in-injection-context.js";
 import * as takeUntilDestroyedInInjectionContext from "./rules/take-until-destroyed-in-injection-context.js";
 import * as toObservableInInjectionContext from "./rules/to-observable-in-injection-context.js";
 
@@ -24,6 +25,7 @@ const plugin = {
     [rxResourceInInjectionContext.ruleName]: rxResourceInInjectionContext.ruleDefinition,
     [resourceInInjectionContext.ruleName]: resourceInInjectionContext.ruleDefinition,
     [effectInInjectionContext.ruleName]: effectInInjectionContext.ruleDefinition,
+    [signalFormInInjectionContext.ruleName]: signalFormInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
@@ -38,6 +40,7 @@ const recommended: ConfigObject = {
     [`${name}/${rxResourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${resourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${effectInInjectionContext.ruleName}`]: "error",
+    [`${name}/${signalFormInInjectionContext.ruleName}`]: "error",
   },
 };
 
