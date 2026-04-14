@@ -50,6 +50,7 @@ module.exports = defineConfig({
 | [no-inject-outside-di-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [take-until-destroyed-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [to-observable-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [to-signal-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [effect-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
