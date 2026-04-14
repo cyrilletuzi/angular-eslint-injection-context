@@ -1,5 +1,6 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
+import * as resourceInInjectionContext from "./rules/resource-in-injection-context.js";
 import * as rxResourceInInjectionContext from "./rules/rx-resource-in-injection-context.js";
 import * as takeUntilDestroyedInInjectionContext from "./rules/take-until-destroyed-in-injection-context.js";
 import * as toObservableInInjectionContext from "./rules/to-observable-in-injection-context.js";
@@ -20,6 +21,7 @@ const plugin = {
     [takeUntilDestroyedInInjectionContext.ruleName]: takeUntilDestroyedInInjectionContext.ruleDefinition,
     [toObservableInInjectionContext.ruleName]: toObservableInInjectionContext.ruleDefinition,
     [rxResourceInInjectionContext.ruleName]: rxResourceInInjectionContext.ruleDefinition,
+    [resourceInInjectionContext.ruleName]: resourceInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
@@ -32,6 +34,7 @@ const recommended: ConfigObject = {
     [`${name}/${takeUntilDestroyedInInjectionContext.ruleName}`]: "error",
     [`${name}/${toObservableInInjectionContext.ruleName}`]: "error",
     [`${name}/${rxResourceInInjectionContext.ruleName}`]: "error",
+    [`${name}/${resourceInInjectionContext.ruleName}`]: "error",
   },
 };
 
