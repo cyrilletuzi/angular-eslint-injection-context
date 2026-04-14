@@ -1,6 +1,7 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
 import * as takeUntilDestroyedInInjectionContext from "./rules/take-until-destroyed-in-injection-context.js";
+import * as toObservableInInjectionContext from "./rules/to-observable-in-injection-context.js";
 
 const { name, version } =
   // importing here would bypass the tsconfig `"rootDir": "src"`
@@ -16,6 +17,7 @@ const plugin = {
   rules: {
     [noInjectOutsideDiContext.ruleName]: noInjectOutsideDiContext.ruleDefinition,
     [takeUntilDestroyedInInjectionContext.ruleName]: takeUntilDestroyedInInjectionContext.ruleDefinition,
+    [toObservableInInjectionContext.ruleName]: toObservableInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
@@ -24,7 +26,9 @@ const recommended: ConfigObject = {
     [name]: plugin
   },
   rules: {
-    [`${name}/${noInjectOutsideDiContext.ruleName}`]: "error"
+    [`${name}/${noInjectOutsideDiContext.ruleName}`]: "error",
+    [`${name}/${takeUntilDestroyedInInjectionContext.ruleName}`]: "error",
+    [`${name}/${toObservableInInjectionContext.ruleName}`]: "error",
   },
 };
 
