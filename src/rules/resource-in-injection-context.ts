@@ -10,7 +10,7 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`resource()\` must be called in an injection context, or an \`Injector\` must be provided in the argument object. Documentation: https://angular.dev/api/core/rxjs-interop/rxResource`,
+      [messageId]: `\`resource()\` must be called in an injection context, or an \`Injector\` must be provided in the argument object. Documentation: https://angular.dev/api/core/resource`,
     },
     docs: {
       description: `Checks that \`resource()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,
