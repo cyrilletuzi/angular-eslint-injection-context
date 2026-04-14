@@ -29,9 +29,7 @@ export function findNearestAncestorOf<T extends TSESTree.Node>(
   { notInCallback = false } = {},
 ): T | undefined {
   while (parent && parent.type !== AST_NODE_TYPES.Program) {
-    /* If the parent is an `ExpressionStatement`, it is not a callback, it just means the node is itself part of a call.
-     * For example: `inject(SomeService).observable.pipe()` */
-    if (notInCallback && parent.type === AST_NODE_TYPES.CallExpression && parent.parent.type !== AST_NODE_TYPES.ExpressionStatement) {
+    if (notInCallback && (parent.type === AST_NODE_TYPES.ArrowFunctionExpression || parent.type === AST_NODE_TYPES.FunctionExpression) && parent.parent.type === AST_NODE_TYPES.CallExpression) {
       return undefined;
     }
 

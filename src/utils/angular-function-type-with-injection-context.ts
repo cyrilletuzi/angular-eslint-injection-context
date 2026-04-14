@@ -21,10 +21,14 @@ export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, { incl
     ] : [])
   ]);
 
-
+  if (!node.parent) {
+    return false;
+  }
   // Check the variable type is an accepted type like `CanActivateFn`
+  // `inject()` can be stored in a variable itself, so start at the parent for the lookup,
+  // otherwise it would catch the first variable
   const variableDeclarator = findNearestAncestorOf(
-    node,
+    node.parent,
     (node) => node.type === AST_NODE_TYPES.VariableDeclarator,
     { notInCallback: true },
   );
