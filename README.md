@@ -52,8 +52,8 @@ module.exports = defineConfig({
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
 | [effect-in-injection-context](./docs/EFFECT.md) | ✅ |
 | [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
-| [resource-in-injection-context](./docs/rules/RESOURCE.md.md) | ✅ |
-| [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md.md) | ✅ |
+| [resource-in-injection-context](./docs/rules/RESOURCE.md) | ✅ |
+| [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md) | ✅ |
 | [take-until-destroyed-in-injection-context](./docs/rules/TAKE_UNTIL_DESTROYED.md) | ✅ |
 | [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
 | [to-signal-in-injection-context](./docs/rules/TO_SIGNAL.md) | ✅ |
