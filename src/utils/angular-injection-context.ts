@@ -9,20 +9,21 @@ import { isInRoute } from "./angular-route";
 
 export function isInInjectionContext(node: TSESTree.Node, {
   includeFactories = false,
-  includeAppInitializationFunctions = false,
+  includeAsyncAppInitializationFunctions = false,
+  includeSyncAppInitializationFunctions = false,
 } = {}): boolean {
   if (
     // Start with constructor and field initializer, as they are by far the most common case, to avoid useless checks
     (isInAngularClassInitialization(node) ||
       // Special contexts (guard, resolver and interceptor) are the second most common case
       // 1. modern function syntax, 2. legacy class syntax, 3. directly inline inside a route
-      isInFunctionTypeWithInjectionContext(node, { includeAppInitializationFunctions }) ||
+      isInFunctionTypeWithInjectionContext(node, { includeSyncAppInitializationFunctions }) ||
       isInMethodWithInjectionContext(node) ||
       isInRoute(node) ||
       // Factories
       (includeFactories && isInFactoryFunction(node)) ||
       // Special functions like `runInInjectionContext` and some application providers
-      isInFunctionWithInjectionContext(node, { includeAppInitializationFunctions }) ||
+      isInFunctionWithInjectionContext(node, { includeAsyncAppInitializationFunctions, includeSyncAppInitializationFunctions }) ||
       // Custom injectable functions where context is asserted
       isInjectionContextAsserted(node))
   ) {
