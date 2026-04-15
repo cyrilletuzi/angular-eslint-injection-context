@@ -1,5 +1,5 @@
 # Changelog
 
-## 21.0.0 (2026-04-11)
+## 1.0.0 (2026-04-15)
 
-Initial release with `no-inject-outside-di-context` rule
+Initial release.
