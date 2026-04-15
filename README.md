@@ -39,7 +39,7 @@ module.exports = defineConfig({
     eslint.configs.recommended,
     tsEslint.configs.strictTypeChecked,
     tsEslint.configs.stylisticTypeChecked,
-    angularEslintInjectionContext.configs.recommended // ⬅️ add this
+    angularEslintInjectionContext.configs.recommended, // ⬅️ add this
   ],
   rules: {},
 });
