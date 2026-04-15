@@ -54,18 +54,18 @@ module.exports = defineConfig({
 | [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md.md) | ✅ |
 | [take-until-destroyed-in-injection-context](./docs/rules/TAKE_UNTIL_DESTROYED.md) | ✅ |
 | [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
-| [to-signal-in-injection-context](./docs/) | ✅ |
+| [to-signal-in-injection-context](./docs/rules/TO_SIGNAL.md) | ✅ |
 | [pending-until-event-in-injection-context](./docs/rules/PENDING_UNTIL_EVENT.md) | ✅ |
 
 ## FAQ
 
 > Why not in Angular ESLint?
 
-I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now. So I decided to publish the rule by myself.
+I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now. So I decided to publish the rule by myself, and to add many more.
 
 > Is Angular ESLint required?
 
-No. When extracting the rule in its own repository, I took the opportunity to only depend on TypeScript ESLint.
+No. When extracting the initial rule in its own repository, I took the opportunity to only depend on TypeScript ESLint.
 
 > Is typed linting required?
 
@@ -83,7 +83,7 @@ Soon! A rule is in prepation to check custom functions requiring an injection co
 
 > Where are the tests?
 
-The tests are already done and passing in the Angular ESLint [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892). I may migrate them here later, but it takes time and would not provide much value.
+The tests are already done and passing in the Angular ESLint [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892). I may migrate them here later, but it takes time.
 
 ## License
 

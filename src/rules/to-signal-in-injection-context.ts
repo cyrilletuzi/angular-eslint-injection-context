@@ -10,10 +10,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`toSignal()\` must be called in an injection context, or an \`Injector\` or a \`manualCleanup\` must be provided in the second argument object. Documentation: https://angular.dev/api/core/rxjs-interop/toSignal`,
+      [messageId]: `\`toSignal()\` must be called in an injection context, or an \`Injector\` must be provided in the second argument object, or \`manualCleanup\` must be enabled.`,
     },
     docs: {
       description: `Checks that \`toSignal()\` is called in an injection context, or is called with an explicit \`Injector\` or \`manualCleanup\` as an argument.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/TO_SIGNAL.md',
       recommended: true,
     },
     schema: [],
