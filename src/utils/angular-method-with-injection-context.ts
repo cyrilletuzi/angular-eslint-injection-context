@@ -3,16 +3,30 @@ import { findAngularClassDecorator } from "./angular-class-decorator";
 import { findNearestAncestorOf } from "./ast-traversal";
 import { isAfterAwait } from "./await-detection";
 
-export function isInMethodWithInjectionContext(node: TSESTree.Node): boolean {
+export function isInMethodWithInjectionContext(node: TSESTree.Node, {
+  includeRouting = false,
+  includeHttp = false,
+} = {}): boolean {
+  const routingMethodsAndInterfaces: readonly (readonly [string, string])[] = [
+    ["canActivate", "CanActivate"],
+    ["canActivateChild", "CanActivateChild"],
+    ["canDeactivate", "CanDeactivate"],
+    ["canMatch", "CanMatch"],
+    ["resolve", "Resolve"],
+  ];
+  const httpMethodsAndInterfaces: readonly (readonly [string, string])[] = [
+    ["intercept", "HttpInterceptor"],
+  ];
   const methodsAndInterfacesWithInjectionContextMap: ReadonlyMap<string, string> =
     new Map<string, string>([
-      ["canActivate", "CanActivate"],
-      ["canActivateChild", "CanActivateChild"],
-      ["canDeactivate", "CanDeactivate"],
-      ["canMatch", "CanMatch"],
-      ["resolve", "Resolve"],
-      ["intercept", "HttpInterceptor"],
+      ...(includeRouting ? routingMethodsAndInterfaces : []),
+      ...(includeHttp ? httpMethodsAndInterfaces : []),
     ]);
+
+  if (methodsAndInterfacesWithInjectionContextMap.size === 0) {
+    return false;
+  }
+
   const methodsWithInjectionContext: ReadonlySet<string> = new Set(
     methodsAndInterfacesWithInjectionContextMap.keys(),
   );

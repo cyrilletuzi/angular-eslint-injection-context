@@ -20,12 +20,17 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "takeUntilDestroyed") {
-          return;
-        }
-
-        /* Takes a `DestroyRef` as first argument: `takeUntilDestroyed(this.destroyRef)` */
-        if (node.arguments.length < 1 && !isInInjectionContext(node, { includeAsyncAppInitializationFunctions: true })) {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "takeUntilDestroyed" &&
+          /* Takes a `DestroyRef` as first argument: `takeUntilDestroyed(this.destroyRef)` */
+          node.arguments.length < 1 &&
+          !isInInjectionContext(node, {
+            includeRouting: true,
+            includeHttp: true,
+            includeAsyncAppInitializationFunctions: true,
+          })
+        ) {
           context.report({
             node,
             messageId,

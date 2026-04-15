@@ -8,6 +8,8 @@ import { isInMethodWithInjectionContext } from "./angular-method-with-injection-
 import { isInRoute } from "./angular-route";
 
 export function isInInjectionContext(node: TSESTree.Node, {
+  includeRouting = false,
+  includeHttp = false,
   includeFactories = false,
   includeAsyncAppInitializationFunctions = false,
   includeSyncAppInitializationFunctions = false,
@@ -17,9 +19,9 @@ export function isInInjectionContext(node: TSESTree.Node, {
     (isInAngularClassInitialization(node) ||
       // Special contexts (guard, resolver and interceptor) are the second most common case
       // 1. modern function syntax, 2. legacy class syntax, 3. directly inline inside a route
-      isInFunctionTypeWithInjectionContext(node, { includeSyncAppInitializationFunctions }) ||
-      isInMethodWithInjectionContext(node) ||
-      isInRoute(node) ||
+      isInFunctionTypeWithInjectionContext(node, { includeRouting, includeHttp, includeSyncAppInitializationFunctions }) ||
+      isInMethodWithInjectionContext(node, { includeRouting, includeHttp }) ||
+      (includeRouting && isInRoute(node)) ||
       // Factories
       (includeFactories && isInFactoryFunction(node)) ||
       // Special functions like `runInInjectionContext` and some application providers

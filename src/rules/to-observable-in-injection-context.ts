@@ -21,12 +21,17 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "toObservable") {
-          return;
-        }
-
-        /* Takes an `Injector` in second argument object: `toObservable(source, { injector })` */
-        if (!isCalledWithProperty(node, 1, 'injector') && !isInInjectionContext(node, { includeAsyncAppInitializationFunctions: true })) {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "toObservable" &&
+          /* Takes an `Injector` in second argument object: `toObservable(source, { injector })` */
+          !isCalledWithProperty(node, 1, 'injector') &&
+          !isInInjectionContext(node, {
+            includeRouting: true,
+            includeHttp: true,
+            includeAsyncAppInitializationFunctions: true,
+          })
+        ) {
           context.report({
             node,
             messageId,

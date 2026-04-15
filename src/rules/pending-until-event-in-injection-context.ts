@@ -20,12 +20,16 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "pendingUntilEvent") {
-          return;
-        }
-
-        /* Takes an `Injector` as first argument: `pendingUntilEvent(this.injector)` */
-        if (node.arguments.length < 1 && !isInInjectionContext(node, { includeAsyncAppInitializationFunctions: true })) {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "pendingUntilEvent" &&
+          /* Takes an `Injector` as first argument: `pendingUntilEvent(this.injector)` */
+          node.arguments.length < 1 && !isInInjectionContext(node, {
+            includeRouting: true,
+            includeHttp: true,
+            includeAsyncAppInitializationFunctions: true,
+          })
+        ) {
           context.report({
             node,
             messageId,

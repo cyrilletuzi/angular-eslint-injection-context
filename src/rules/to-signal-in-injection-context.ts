@@ -21,14 +21,14 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "toSignal") {
-          return;
-        }
-
-        /* Takes an `Injector` or `manualCleanup` in second argument object: `toSignal(obs, { injector })` or `toSignal(obs, { manualCleanup })` */
-        if (!isCalledWithProperty(node, 1, 'injector') &&
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "toSignal" &&
+          /* Takes an `Injector` or `manualCleanup` in second argument object: `toSignal(obs, { injector })` or `toSignal(obs, { manualCleanup })` */
+          !isCalledWithProperty(node, 1, 'injector') &&
           !isCalledWithProperty(node, 1, 'manualCleanup') &&
-          !isInInjectionContext(node)) {
+          !isInInjectionContext(node)
+        ) {
           context.report({
             node,
             messageId,

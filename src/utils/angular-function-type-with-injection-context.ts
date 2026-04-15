@@ -2,24 +2,38 @@ import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { findNearestAncestorOf } from "./ast-traversal";
 import { isAfterAwait } from "./await-detection";
 
-export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, { includeSyncAppInitializationFunctions = false } = {}): boolean {
+export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, {
+  includeRouting = false,
+  includeHttp = false,
+  includeSyncAppInitializationFunctions = false,
+} = {}): boolean {
   const functionTypesWithInjectionContext: ReadonlySet<string> = new Set([
-    "CanActivateFn",
-    "CanActivateChildFn",
-    "CanDeactivateFn",
-    "CanMatchFn",
-    "ResolveFn",
-    // see https://github.com/angular/angular/pull/64938
-    "RunGuardsAndResolvers",
-    // see https://github.com/angular/angular/pull/62133
-    "LoadChildren",
-    "LoadChildrenCallback",
-    "HttpInterceptorFn",
+    ...(includeRouting ? [
+      // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
+      "CanActivateFn",
+      "CanActivateChildFn",
+      "CanDeactivateFn",
+      "CanMatchFn",
+      "ResolveFn",
+      // see https://github.com/angular/angular/pull/64938
+      "RunGuardsAndResolvers",
+      // see https://github.com/angular/angular/pull/62133
+      "LoadChildren",
+      "LoadChildrenCallback",
+    ] : []),
+    ...(includeHttp ? [
+      // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
+      "HttpInterceptorFn",
+    ] : []),
     ...(includeSyncAppInitializationFunctions ? [
       // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
       "ViewTransitionsFeatureOptions",
-    ] : [])
+    ] : []),
   ]);
+
+  if (functionTypesWithInjectionContext.size === 0) {
+    return false;
+  }
 
   if (!node.parent) {
     return false;

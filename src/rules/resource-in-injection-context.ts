@@ -21,12 +21,13 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "resource") {
-          return;
-        }
-
-        /* Takes an `Injector` in argument: `resource({ loader, injector })` */
-        if (!isCalledWithProperty(node, 0, 'injector') && !isInInjectionContext(node)) {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "resource" &&
+          /* Takes an `Injector` in argument: `resource({ loader, injector })` */
+          !isCalledWithProperty(node, 0, 'injector') &&
+          !isInInjectionContext(node)
+        ) {
           context.report({
             node,
             messageId,

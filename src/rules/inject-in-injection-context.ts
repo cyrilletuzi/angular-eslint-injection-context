@@ -20,11 +20,18 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "inject") {
-          return;
-        }
-
-        if (!isInInjectionContext(node, { includeFactories: true, includeAsyncAppInitializationFunctions: true, includeSyncAppInitializationFunctions: true })) {
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "inject" &&
+          !isInInjectionContext(node, {
+            /* `inject()` is accepted in all injection contexts */
+            includeRouting: true,
+            includeHttp: true,
+            includeFactories: true,
+            includeAsyncAppInitializationFunctions: true,
+            includeSyncAppInitializationFunctions: true,
+          })
+        ) {
           context.report({
             node,
             messageId,

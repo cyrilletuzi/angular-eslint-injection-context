@@ -21,14 +21,14 @@ export const ruleDefinition: RuleDefinition = {
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier || node.callee.name !== "form") {
-          return;
-        }
-
-        /* Takes an `Injector` in second or third argument object: `form(source, { injector })` or `form(source, schema, { injector })` */
-        if (!(node.arguments.length === 3 && isCalledWithProperty(node, 2, 'injector')) &&
+        if (
+          node.callee.type === AST_NODE_TYPES.Identifier &&
+          node.callee.name === "form" &&
+          /* Takes an `Injector` in second or third argument object: `form(source, { injector })` or `form(source, schema, { injector })` */
+          !(node.arguments.length === 3 && isCalledWithProperty(node, 2, 'injector')) &&
           !isCalledWithProperty(node, 1, 'injector') &&
-          !isInInjectionContext(node)) {
+          !isInInjectionContext(node)
+        ) {
           context.report({
             node,
             messageId,
