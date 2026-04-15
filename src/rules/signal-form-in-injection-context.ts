@@ -10,10 +10,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`form()\` must be called in an injection context, or an \`Injector\` must be provided in the second or third argument object. Documentation: https://angular.dev/api/forms/signals/form`,
+      [messageId]: `\`form()\` must be called in an injection context, or an \`Injector\` must be provided in the second or third argument object.`,
     },
     docs: {
-      description: `Checks that \`form()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,
+      description: `Checks that signal \`form()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/SIGNAL_FORM.md',
       recommended: true,
     },
     schema: [],

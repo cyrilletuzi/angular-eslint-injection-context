@@ -49,7 +49,7 @@ module.exports = defineConfig({
 |---|---|
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
 | [effect-in-injection-context](./docs/EFFECT.md) | ✅ |
-| [signal-form-in-injection-context](./docs/) | ✅ |
+| [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
 | [resource-in-injection-context](./docs/rules/RESOURCE.md.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md.md) | ✅ |
 | [take-until-destroyed-in-injection-context](./docs/) | ✅ |
@@ -70,6 +70,10 @@ No. When extracting the rule in its own repository, I took the opportunity to on
 > Is typed linting required?
 
 [Typed linting](https://typescript-eslint.io/getting-started/typed-linting) is not required for now, but it could change in the future as some cases may require it.
+
+> Can I check a custom function?
+
+Soon! A rule is in prepation to check custom functions requiring an injection context.
 
 > Where are the tests?
 
