@@ -2,6 +2,8 @@
 
 ESLint rules for Angular injection context. Say goodbye to the `NG0203` runtime error.
 
+Checks that `inject()` and other functions (`takeUntilDestroyed()`, `toSignal()`, `resource()`, `form()`...) are called in an injection context.
+
 ## Requirements
 
 - TypeScript ESLint v8
