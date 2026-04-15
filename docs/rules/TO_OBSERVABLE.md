@@ -1,4 +1,4 @@
-# inject-in-injection-context
+# to-observable-in-injection-context
 
 Checks that `toObservable()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument,  to avoid the `NG0203` runtime error.
 
@@ -48,7 +48,7 @@ export class ProductPage {
 ```
 
 > [!NOTE]
-> The rule reports both on asynchronous and synchronous callbacks, see known limitations below.
+> The rule reports both on asynchronous and synchronous callbacks, see the [known limitation documentation](../known-limitations/CALLBACKS.md).
 
 - after awaiting (which is equivalent to be in a `.then()` callback)
 ```typescript
@@ -116,10 +116,7 @@ export const routes: Routes = [{
 ```
 
 > [!NOTE]
-> Injection context is only available:
-> - `loadComponent`: Angular >= 20.1
-> - `loadChildren`: Angular >= 20.1
-> - `runGuardsAndResolvers`: Angular >= 21.1
+> For some route options, injection context is only available from certain Angular versions, see the [known limitation documentation](../known-limitations/ROUTE_OPTIONS.md).
 
 - in some providers during app initialization:
   - `provideAppInitializer()`
@@ -140,7 +137,7 @@ export class MyService {
 ```
 
 > [!NOTE]
-> The rule only detects `runInInjectionContext()` in the current function, see known limitations below.
+> The rule only detects `runInInjectionContext()` in the current function, see the [known limitation documentation](../known-limitations/RUN_IN_INJECTION_CONTEXT.md).
 
 - when asserted
 ```typescript
@@ -153,26 +150,4 @@ function customOperator(injector: Injector) {
 }
 ```
 
-## Known limitations
-
-This is a lint rule like any other, so it can be disabled when necessary:
-```ts
-// eslint-disable-next-line angular-eslint-injection-context/no-inject-outside-di-context
-inject(MyService);
-```
-
-### Synchronous callbacks (false positive)
-
-The injection context is lost only in _asynchronous_ callbacks. Technically, it should still be available in _synchronous_ callbacks. But it is not possible to differenciate asynchronous and synchronous callbacks during the lint analysis. So the rule will report when using `inject()` in _any_ callback.
-
-While this is a limitation, it is acceptable as it is better to always do `inject()` upstream, before any callback, for several reasons:
-- to avoid errors, as some functions can be synchronous or asynchronous depending on complex contexts, hard to understand for beginners, and not apparent at first glance even for experts (notably all RxJS functions)
-- to be consistent
-
-### runInInjectionContext() done before in the call stack (false positive)
-
-This rule detects if `runInInjectionContext()` is called. But it does so only in the current function. If it was done before in another function in the call stack, the injection may still be available, but the lint analysis cannot detect that.
-
-While this is a limitation, it is acceptable because:
-- it is a rare and edge case, happening at framework-level or in low-level libraries, but very unlikely in applications
-- seems like a bad practice to rely on another function to manage `runInInjectionContext()`
+[Back to README](../../README.md)
