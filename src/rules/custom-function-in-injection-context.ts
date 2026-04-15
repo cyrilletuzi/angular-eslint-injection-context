@@ -4,7 +4,6 @@ import { isInInjectionContext } from "../utils/angular-injection-context";
 import { isCalledWithProperty } from "../utils/ast-call-argument";
 
 export const ruleName = "custom-function-in-injection-context";
-const messageId = `customFunctionInInjectionContext`;
 
 type SpecialInjectionContext = "routing" | "http" | "factory" | "observable" | "applicationInitialization";
 
@@ -18,9 +17,6 @@ interface FunctionConfig {
 export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
-    messages: {
-      [messageId]: `This function must be called in an injection context, or an explicit injection context must be provided as an argument.`,
-    },
     docs: {
       description: `Checks that a function is called in an injection context, or that an explicit injection context is provided as an argument.`,
       url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/CUSTOM_FUNCTION.md',
@@ -86,7 +82,7 @@ export const ruleDefinition: RuleDefinition = {
               })) {
               context.report({
                 node,
-                messageId,
+                message: `\`${functionToCheck.functionName}()\` must be called in an injection context, or ${functionToCheck.argumentPropertyName !== undefined ? `\`${functionToCheck.argumentPropertyName}\`` : `an explicit injection context`} must be provided in an argument.`,
               });
             }
             /* No need to check other functions names if one has already matched */
