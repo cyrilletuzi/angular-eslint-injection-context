@@ -23,8 +23,8 @@ npm install angular-eslint-injection-context --save-dev
 ```js
 const eslint = require("@eslint/js");
 const { defineConfig } = require("eslint/config");
-const tseslint = require("typescript-eslint");
-const angulareslintinjectioncontext = require("angular-eslint-injection-context"); // ⬅️ add this
+const tsEslint = require("typescript-eslint");
+const angularEslintInjectionContext = require("angular-eslint-injection-context"); // ⬅️ add this
 
 module.exports = defineConfig({
   files: ["**/*.ts"],
@@ -35,13 +35,15 @@ module.exports = defineConfig({
   },
   extends: [
     eslint.configs.recommended,
-    tseslint.configs.strictTypeChecked,
-    tseslint.configs.stylisticTypeChecked,
-    angulareslintinjectioncontext.configs.recommended // ⬅️ add this
+    tsEslint.configs.strictTypeChecked,
+    tsEslint.configs.stylisticTypeChecked,
+    angularEslintInjectionContext.configs.recommended // ⬅️ add this
   ],
   rules: {},
 });
 ```
+
+3. `npm run lint`
 
 ## Rules
 
