@@ -11,7 +11,7 @@ import * as toSignalInInjectionContext from "./rules/to-signal-in-injection-cont
 
 const { name, version } =
   // importing here would bypass the tsconfig `"rootDir": "src"`
-  require("../package.json") as typeof import("../package.json");
+  require("./package.json") as typeof import("./package.json");
 
 const plugin = {
   configs: {
