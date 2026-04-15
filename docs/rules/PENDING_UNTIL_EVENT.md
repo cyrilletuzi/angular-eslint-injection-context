@@ -1,6 +1,12 @@
-# effect-in-injection-context
+# pending-until-event-in-injection-context
 
-Checks that `effect()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument, to avoid the `NG0203` runtime error.
+Checks that `pendingUntilEvent()` is called inside an injection context, or that an explicit `Injector` is provided as first argument, to avoid the `NG0203` runtime error.
+
+## Documentation
+
+- [`pendingUntilEvent()` API reference](https://angular.dev/api/core/rxjs-interop/pendingUntilEvent)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## Configuration
 
@@ -9,17 +15,10 @@ Checks that `effect()` is called inside an injection context, or that an explici
 ```json
 {
   rules: {
-    "angular-eslint-injection-context/effect-in-injection-context": "error"
+    "angular-eslint-injection-context/pending-until-event-in-injection-context": "error"
   },
 }
 ```
-
-## Documentation
-
-- [`effect()` API reference](https://angular.dev/api/core/effect)
-- [Effects guide](https://angular.dev/guide/signals/effect)
-- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
-- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 
@@ -28,21 +27,23 @@ All the invalid cases are without an injector. See the valid cases below to see 
 - in lifecycle methods, notably `ngOnInit`
 ```typescript
 @Component()
-export class ProductPage implements OnInit {
+export class App implements OnInit {
   ngOnInit(): void {
-    effect(() => {});
+    someObservable().pipe(
+      pendingUntilEvent(),
+    ).subscribe();
   }
 }
 ```
 
 - in any methods other than the constructor
 ```typescript
-@Component({
-  template: `<form (submit)="save()"></form>`
-})
-export class ProductEditPage {
-  save(): void {
-    effect(() => {});
+@Component()
+export class App {
+  someMethod(): void {
+    someObservable().pipe(
+      pendingUntilEvent(),
+    ).subscribe();
   }
 }
 ```
@@ -50,11 +51,9 @@ export class ProductEditPage {
 - in callbacks
 ```typescript
 @Component() 
-export class ProductPage {
+export class App {
   private readonly dataObservable = someObservable.pipe(
-    tap(() => {
-      effect(() => {});
-    }),
+    switchMap(() => someOtherObservable.pipe(pendingUntilEvent())),
   );
 }
 ```
@@ -65,10 +64,12 @@ export class ProductPage {
 - after awaiting (which is equivalent to be in a `.then()` callback)
 ```typescript
 @Component()
-export class ProductEditPage {
+export class App {
   async save(): Promise<void> {
     await somePromise();
-    effect(() => {});
+    someObservable().pipe(
+      pendingUntilEvent(),
+    ).subscribe();
   }
 }
 ```
@@ -76,16 +77,14 @@ export class ProductEditPage {
 - in non-Angular classes
 ```typescript
 export class Product {
-  constructor() {
-    effect(() => {});
-  }
+  private readonly obs = someObservable.pipe(pendingUntilEvent());
 }
 ```
 
 - in standalone functions
 ```typescript
 function someFunction(): void {
-  effect(() => {});
+  someObservable.pipe(pendingUntilEvent()).subscribe();
 } 
 ```
 
@@ -94,9 +93,11 @@ function someFunction(): void {
 - in constructors of components, directives, pipes and injectables/services
 ```typescript
 @Component()
-export class ProductsPage {
+export class App {
   constructor(): void {
-    effect(() => {});
+    someObservable.pipe(
+      pendingUntilEvent(),
+    ).subscribe();
   }
 }
 ```
@@ -104,25 +105,45 @@ export class ProductsPage {
 - in property initializers of components, directives, pipes and injectables/services
 ```typescript
 @Component()
-export class ProductPage {
-  private readonly someEffect = effect(() => {});
+export class App {
+  private readonly obs = someObservable.pipe(pendingUntilEvent());
 }
 ```
 
 - when providing an explicit `Injector`
 ```typescript
 @Component()
-export class ProductPage implements OnInit {
+export class App implements OnInit {
   private readonly injector = inject(Injector);
 
   ngOnInit(): void {
-    effect(() => {}, { injector: this.injector });
+    someObservable.pipe(
+      pendingUntilEvent(this.injector),
+    ).subscribe();
   }
 }
 ```
 
+- in guards, resolvers and interceptors
+```typescript
+const authGuard: CanActivateFn = () => {
+  return someObservable.pipe(pendingUntilEvent());
+};
+```
+
+- in routes options involving a function:
+```typescript
+export const routes: Routes = [{
+  path: 'some/path',
+  redirectTo: () => someObservable.pipe(pendingUntilEvent()),
+}];
+```
+
 > [!NOTE]
-> Prefer a literal object as in this example. If the second argument is a variable, the lint rule will not check if `injector` is actually present, see the [known limitation documentation](../known-limitations/INJECTOR_IN_VARIABLE.md).
+> For some route options, injection context is only available from certain Angular versions, see the [known limitation documentation](../known-limitations/ROUTE_OPTIONS.md).
+
+- in some providers during app initialization:
+  - `provideAppInitializer()`
 
 - in explicit injection context
 ```typescript
@@ -132,7 +153,7 @@ export class MyService {
 
   someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
-      effect(() => {});
+      someObservable.pipe(pendingUntilEvent()).subscribe();
     });
   }
 }
@@ -147,7 +168,7 @@ function customOperator(injector: Injector) {
   if (!injector) {
     assertInInjectionContext(customOperator);
   }
-  effect(() => {}, injector ? { injector } : undefined);
+  someObservable.pipe(pendingUntilEvent(injector)).subscribe();
 }
 ```
 

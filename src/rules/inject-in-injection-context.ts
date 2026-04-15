@@ -9,10 +9,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`inject()\` must be called in an injection context. Documentation: https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/INJECT.md`,
+      [messageId]: `\`inject()\` must be called in an injection context.`,
     },
     docs: {
       description: `Checks that \`inject()\` is called in an injection context.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/INJECT.md',
       recommended: true,
     },
     schema: [],

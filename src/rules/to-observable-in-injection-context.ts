@@ -10,10 +10,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`toObservable()\` must be called in an injection context, or an \`Injector\` must be provided in the second argument object. Documentation: https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/TO_OBSERVABLE.md`,
+      [messageId]: `\`toObservable()\` must be called in an injection context, or an \`Injector\` must be provided in the second argument object.`,
     },
     docs: {
       description: `Checks that \`toObservable()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/TO_OBSERVABLE.md',
       recommended: true,
     },
     schema: [],

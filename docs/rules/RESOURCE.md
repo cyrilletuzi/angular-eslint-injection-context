@@ -1,6 +1,6 @@
-# effect-in-injection-context
+# resource-in-injection-context
 
-Checks that `effect()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument, to avoid the `NG0203` runtime error.
+Checks that `resource()` is called inside an injection context, or that an explicit `Injector` is provided in the first argument, to avoid the `NG0203` runtime error.
 
 ## Configuration
 
@@ -9,15 +9,15 @@ Checks that `effect()` is called inside an injection context, or that an explici
 ```json
 {
   rules: {
-    "angular-eslint-injection-context/effect-in-injection-context": "error"
+    "angular-eslint-injection-context/resource-in-injection-context": "error"
   },
 }
 ```
 
 ## Documentation
 
-- [`effect()` API reference](https://angular.dev/api/core/effect)
-- [Effects guide](https://angular.dev/guide/signals/effect)
+- [`resource()` API reference](https://angular.dev/api/core/resource)
+- [Resources guide](https://angular.dev/guide/signals/resource)
 - [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
 - [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
@@ -30,7 +30,9 @@ All the invalid cases are without an injector. See the valid cases below to see 
 @Component()
 export class ProductPage implements OnInit {
   ngOnInit(): void {
-    effect(() => {});
+    resource({
+      loader: () => getProductPromise(),
+    });
   }
 }
 ```
@@ -42,20 +44,24 @@ export class ProductPage implements OnInit {
 })
 export class ProductEditPage {
   save(): void {
-    effect(() => {});
+    resource({
+      loader: () => saveProductPromise(),
+    });
   }
 }
 ```
 
 - in callbacks
 ```typescript
-@Component() 
-export class ProductPage {
-  private readonly dataObservable = someObservable.pipe(
-    tap(() => {
-      effect(() => {});
-    }),
-  );
+@Component()
+export class ProductPage implements OnInit {
+  ngOnInit(): void {
+    somePromise().then(() => {
+      resource({
+        loader: () => getProductPromise(),
+      });
+    }).catch(() => {});  
+  }
 }
 ```
 
@@ -68,7 +74,9 @@ export class ProductPage {
 export class ProductEditPage {
   async save(): Promise<void> {
     await somePromise();
-    effect(() => {});
+    resource({
+      loader: () => getProductPromise(),
+    });
   }
 }
 ```
@@ -77,7 +85,9 @@ export class ProductEditPage {
 ```typescript
 export class Product {
   constructor() {
-    effect(() => {});
+    resource({
+      loader: () => getProductPromise(),
+    });
   }
 }
 ```
@@ -85,7 +95,9 @@ export class Product {
 - in standalone functions
 ```typescript
 function someFunction(): void {
-  effect(() => {});
+  resource({
+    loader: () => getProductPromise(),
+  });
 } 
 ```
 
@@ -96,7 +108,9 @@ function someFunction(): void {
 @Component()
 export class ProductsPage {
   constructor(): void {
-    effect(() => {});
+    resource({
+      loader: () => getProductPromise(),
+    });
   }
 }
 ```
@@ -105,7 +119,9 @@ export class ProductsPage {
 ```typescript
 @Component()
 export class ProductPage {
-  private readonly someEffect = effect(() => {});
+  private readonly productResource = resource({
+    loader: () => getProductPromise(),
+  });
 }
 ```
 
@@ -116,7 +132,10 @@ export class ProductPage implements OnInit {
   private readonly injector = inject(Injector);
 
   ngOnInit(): void {
-    effect(() => {}, { injector: this.injector });
+    resource({
+      loader: () => getProductPromise(),
+      injector: this.injector,
+    });
   }
 }
 ```
@@ -132,7 +151,9 @@ export class MyService {
 
   someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
-      effect(() => {});
+      resource({
+        loader: () => getDataPromise(),
+      });
     });
   }
 }
@@ -147,7 +168,10 @@ function customOperator(injector: Injector) {
   if (!injector) {
     assertInInjectionContext(customOperator);
   }
-  effect(() => {}, injector ? { injector } : undefined);
+  resource({
+    loader: () => getDataPromise(),
+    ...(injector ? { injector } : {}),
+  });
 }
 ```
 

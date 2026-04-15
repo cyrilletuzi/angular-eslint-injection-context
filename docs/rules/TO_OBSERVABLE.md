@@ -9,7 +9,6 @@ Checks that `toObservable()` is called inside an injection context, or that an e
 - [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
 - [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
-
 ## Configuration
 
 - in the recommended preset (see the [README](../../README.md) for the configuration)
@@ -108,7 +107,7 @@ export class ProductsPage {
 - in property initializers of components, directives, pipes and injectables/services
 ```typescript
 @Component()
-export class ProductPage implements OnInit {
+export class ProductPage {
   private readonly id = signal(0);
   private readonly idObservable = toObservable(this.id);
 }

@@ -9,10 +9,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`pendingUntilEvent()\` must be called in an injection context, or an \`Injector\` must be provided as the first argument. Documentation: https://angular.dev/api/core/rxjs-interop/pendingUntilEvent`,
+      [messageId]: `\`pendingUntilEvent()\` must be called in an injection context, or an \`Injector\` must be provided as the first argument.`,
     },
     docs: {
       description: `Checks that \`pendingUntilEvent()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/PENDING_UNTIL_EVENT.md',
       recommended: true,
     },
     schema: [],
