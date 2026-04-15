@@ -1,4 +1,5 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
+import * as customFunctionInInjectionContext from "./rules/custom-function-in-injection-context.js";
 import * as effectInInjectionContext from "./rules/effect-in-injection-context.js";
 import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
 import * as pendingUntilEventInInjectionContext from "./rules/pending-until-event-in-injection-context.js";
@@ -30,6 +31,7 @@ const plugin = {
     [effectInInjectionContext.ruleName]: effectInInjectionContext.ruleDefinition,
     [signalFormInInjectionContext.ruleName]: signalFormInInjectionContext.ruleDefinition,
     [pendingUntilEventInInjectionContext.ruleName]: pendingUntilEventInInjectionContext.ruleDefinition,
+    [customFunctionInInjectionContext.ruleName]: customFunctionInInjectionContext.ruleDefinition,
   },
 } satisfies Plugin;
 
