@@ -49,13 +49,13 @@ module.exports = defineConfig({
 |---|---|
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
 | [effect-in-injection-context](./docs/EFFECT.md) | ✅ |
-| [signal-form-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
-| [resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
-| [rx-resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
-| [take-until-destroyed-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [signal-form-in-injection-context](./docs/) | ✅ |
+| [resource-in-injection-context](./docs/rules/RESOURCE.md.md) | ✅ |
+| [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md.md) | ✅ |
+| [take-until-destroyed-in-injection-context](./docs/) | ✅ |
 | [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
-| [to-signal-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
-| [pending-until-event-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [to-signal-in-injection-context](./docs/) | ✅ |
+| [pending-until-event-in-injection-context](./docs/rules/PENDING_UNTIL_EVENT.md) | ✅ |
 
 ## FAQ
 

@@ -5,7 +5,7 @@ Checks that `toObservable()` is called inside an injection context, or that an e
 ## Documentation
 
 - [`toObservable()` API reference](https://angular.dev/api/core/rxjs-interop/toObservable)
-- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop#create-an-rxjs-observable-from-a-signal-with-toobservable)
+- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop)
 - [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
 - [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
@@ -98,7 +98,7 @@ function someFunction(): void {
 export class ProductsPage {
   private readonly id = signal(0);
 
-  constructor(): void {
+  constructor() {
     toObservable(this.id);
   }
 }

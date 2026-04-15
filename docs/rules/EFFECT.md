@@ -95,7 +95,7 @@ function someFunction(): void {
 ```typescript
 @Component()
 export class ProductsPage {
-  constructor(): void {
+  constructor() {
     effect(() => {});
   }
 }

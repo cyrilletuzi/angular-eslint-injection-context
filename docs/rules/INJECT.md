@@ -91,7 +91,7 @@ function someFunction(): void {
 ```typescript
 @Component()
 export class ProductsPage {
-  constructor(): void {
+  constructor() {
     const productApi = inject(ProductApi);
     productApi.getProducts().subscribe();
   }

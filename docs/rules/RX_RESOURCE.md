@@ -1,6 +1,6 @@
-# resource-in-injection-context
+# rx-resource-in-injection-context
 
-Checks that `resource()` is called inside an injection context, or that an explicit `Injector` is provided in the first argument, to avoid the `NG0203` runtime error.
+Checks that `rxResource()` is called inside an injection context, or that an explicit `Injector` is provided in the first argument, to avoid the `NG0203` runtime error.
 
 ## Configuration
 
@@ -9,15 +9,15 @@ Checks that `resource()` is called inside an injection context, or that an expli
 ```json
 {
   rules: {
-    "angular-eslint-injection-context/resource-in-injection-context": "error"
+    "angular-eslint-injection-context/rx-resource-in-injection-context": "error"
   },
 }
 ```
 
 ## Documentation
 
-- [`resource()` API reference](https://angular.dev/api/core/resource)
-- [Resources guide](https://angular.dev/guide/signals/resource)
+- [`rxResource()` API reference](https://angular.dev/api/core/rxjs-interop/rxResource)
+- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop)
 - [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
 - [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
@@ -30,8 +30,8 @@ All the invalid cases are without an injector. See the valid cases below to see 
 @Component()
 export class ProductPage implements OnInit {
   ngOnInit(): void {
-    resource({
-      loader: () => getProductPromise(),
+    rxResource({
+      stream: () => getProduct(),
     });
   }
 }
@@ -44,8 +44,8 @@ export class ProductPage implements OnInit {
 })
 export class ProductEditPage {
   save(): void {
-    resource({
-      loader: () => saveProductPromise(),
+    rxResource({
+      stream: () => saveProduct(),
     });
   }
 }
@@ -57,8 +57,8 @@ export class ProductEditPage {
 export class ProductPage implements OnInit {
   ngOnInit(): void {
     somePromise().then(() => {
-      resource({
-        loader: () => getProductPromise(),
+      rxResource({
+        stream: () => getProduct(),
       });
     }).catch(() => {});  
   }
@@ -74,8 +74,8 @@ export class ProductPage implements OnInit {
 export class ProductEditPage {
   async save(): Promise<void> {
     await somePromise();
-    resource({
-      loader: () => getProductPromise(),
+    rxResource({
+      stream: () => getProduct(),
     });
   }
 }
@@ -85,8 +85,8 @@ export class ProductEditPage {
 ```typescript
 export class Product {
   constructor() {
-    resource({
-      loader: () => getProductPromise(),
+    rxResource({
+      stream: () => getProduct(),
     });
   }
 }
@@ -95,8 +95,8 @@ export class Product {
 - in standalone functions
 ```typescript
 function someFunction(): void {
-  resource({
-    loader: () => getProductPromise(),
+  rxResource({
+    stream: () => getProduct(),
   });
 } 
 ```
@@ -108,8 +108,8 @@ function someFunction(): void {
 @Component()
 export class ProductsPage {
   constructor() {
-    resource({
-      loader: () => getProductPromise(),
+    rxResource({
+      stream: () => getProduct(),
     });
   }
 }
@@ -119,8 +119,8 @@ export class ProductsPage {
 ```typescript
 @Component()
 export class ProductPage {
-  private readonly productResourceRef = resource({
-    loader: () => getProductPromise(),
+  private readonly productResourceRef = rxResource({
+    stream: () => getProduct(),
   });
 }
 ```
@@ -132,8 +132,8 @@ export class ProductPage implements OnInit {
   private readonly injector = inject(Injector);
 
   ngOnInit(): void {
-    resource({
-      loader: () => getProductPromise(),
+    rxResource({
+      stream: () => getProduct(),
       injector: this.injector,
     });
   }
@@ -151,8 +151,8 @@ export class MyService {
 
   someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
-      resource({
-        loader: () => getDataPromise(),
+      rxResource({
+        stream: () => getProduct(),
       });
     });
   }
@@ -168,8 +168,8 @@ function customOperator(injector: Injector) {
   if (!injector) {
     assertInInjectionContext(customOperator);
   }
-  resource({
-    loader: () => getDataPromise(),
+  rxResource({
+    stream: () => getProduct(),
     ...(injector ? { injector } : {}),
   });
 }

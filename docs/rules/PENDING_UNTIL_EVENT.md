@@ -94,7 +94,7 @@ function someFunction(): void {
 ```typescript
 @Component()
 export class App {
-  constructor(): void {
+  constructor() {
     someObservable.pipe(
       pendingUntilEvent(),
     ).subscribe();
