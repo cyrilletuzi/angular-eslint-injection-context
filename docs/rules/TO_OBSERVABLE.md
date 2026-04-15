@@ -10,6 +10,8 @@ Checks that `toObservable()` is called inside an injection context, or that an e
 
 ## ❌ Invalid
 
+All the invalid cases are without an injector. See the valid cases to see an example of how to provide an explicit `Injector`.
+
 - in lifecycle methods, notably `ngOnInit`
 ```typescript
 @Component()
@@ -95,6 +97,19 @@ export class ProductsPage {
 export class ProductPage implements OnInit {
   private readonly id = signal(0);
   private readonly idObservable = toObservable(this.id);
+}
+```
+
+- when providing an explicit `Injector`
+```typescript
+@Component()
+export class ProductPage implements OnInit {
+  private readonly injector = inject(Injector);
+  private readonly id = signal(0);
+
+  ngOnInit(): void {
+    toObservable(this.id, { injector: this.injector });
+  }
 }
 ```
 
