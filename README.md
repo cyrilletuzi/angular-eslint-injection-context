@@ -52,7 +52,7 @@ module.exports = defineConfig({
 | Rule & documentation | in recommended |
 |---|---|
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
-| [effect-in-injection-context](./docs/EFFECT.md) | ✅ |
+| [effect-in-injection-context](./docs/rules/EFFECT.md) | ✅ |
 | [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
 | [resource-in-injection-context](./docs/rules/RESOURCE.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md) | ✅ |
