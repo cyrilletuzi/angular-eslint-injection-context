@@ -2,6 +2,13 @@
 
 Checks that signal `form()` is called inside an injection context, or that an explicit `Injector` is provided in the second or third argument, to avoid the `NG0203` runtime error.
 
+## Documentation
+
+- [`form()` API reference](https://angular.dev/api/forms/signals/form)
+- [Signal forms guide](https://angular.dev/essentials/signal-forms#)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
+
 ## Configuration
 
 - in the recommended preset (see the [README](../../README.md) for the configuration)
@@ -13,13 +20,6 @@ Checks that signal `form()` is called inside an injection context, or that an ex
   },
 }
 ```
-
-## Documentation
-
-- [`form()` API reference](https://angular.dev/api/forms/signals/form)
-- [Signal forms guide](https://angular.dev/essentials/signal-forms#)
-- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
-- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 

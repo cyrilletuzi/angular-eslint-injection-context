@@ -2,6 +2,13 @@
 
 Checks that `rxResource()` is called inside an injection context, or that an explicit `Injector` is provided in the first argument, to avoid the `NG0203` runtime error.
 
+## Documentation
+
+- [`rxResource()` API reference](https://angular.dev/api/core/rxjs-interop/rxResource)
+- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
+
 ## Configuration
 
 - in the recommended preset (see the [README](../../README.md) for the configuration)
@@ -13,13 +20,6 @@ Checks that `rxResource()` is called inside an injection context, or that an exp
   },
 }
 ```
-
-## Documentation
-
-- [`rxResource()` API reference](https://angular.dev/api/core/rxjs-interop/rxResource)
-- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop)
-- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
-- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 

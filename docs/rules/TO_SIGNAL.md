@@ -2,6 +2,12 @@
 
 Checks that `toSignal()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument, or that `manualCleanup` is enabled, to avoid the `NG0203` runtime error.
 
+## Documentation
+
+- [`toSignal()` API reference](https://angular.dev/api/core/resource)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
+
 ## Configuration
 
 - in the recommended preset (see the [README](../../README.md) for the configuration)
@@ -13,12 +19,6 @@ Checks that `toSignal()` is called inside an injection context, or that an expli
   },
 }
 ```
-
-## Documentation
-
-- [`toSignal()` API reference](https://angular.dev/api/core/resource)
-- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
-- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 
