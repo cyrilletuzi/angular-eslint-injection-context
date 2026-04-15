@@ -5,8 +5,20 @@ Checks that `inject()` is called inside an injection context, to avoid the `NG02
 ## Documentation
 
 - [`inject()` API reference](https://angular.dev/api/core/inject)
-- [General injection context documentation](https://angular.dev/guide/di/dependency-injection-context)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
 - [`NG0203` runtime error](https://angular.dev/errors/NG0203)
+
+## Configuration
+
+- in the recommended preset (see the [README](../../README.md) for the configuration)
+- or just this rule:
+```json
+{
+  rules: {
+    "angular-eslint-injection-context/inject-in-injection-context": "error"
+  },
+}
+```
 
 ## ❌ Invalid
 

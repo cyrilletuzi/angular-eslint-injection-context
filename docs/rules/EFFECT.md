@@ -1,14 +1,6 @@
-# to-observable-in-injection-context
+# effect-in-injection-context
 
-Checks that `toObservable()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument, to avoid the `NG0203` runtime error.
-
-## Documentation
-
-- [`toObservable()` API reference](https://angular.dev/api/core/rxjs-interop/toObservable)
-- [RxJS interop guide](https://angular.dev/ecosystem/rxjs-interop#create-an-rxjs-observable-from-a-signal-with-toobservable)
-- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
-- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
-
+Checks that `effect()` is called inside an injection context, or that an explicit `Injector` is provided in the second argument, to avoid the `NG0203` runtime error.
 
 ## Configuration
 
@@ -17,10 +9,17 @@ Checks that `toObservable()` is called inside an injection context, or that an e
 ```json
 {
   rules: {
-    "angular-eslint-injection-context/to-observable-in-injection-context": "error"
+    "angular-eslint-injection-context/effect-in-injection-context": "error"
   },
 }
 ```
+
+## Documentation
+
+- [`effect()` API reference](https://angular.dev/api/core/effect)
+- [Effects guide](https://angular.dev/guide/signals/effect)
+- [General injection context guide](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 
@@ -30,10 +29,8 @@ All the invalid cases are without an injector. See the valid cases below to see 
 ```typescript
 @Component()
 export class ProductPage implements OnInit {
-  private readonly id = signal(0);
-
   ngOnInit(): void {
-    toObservable(this.id);
+    effect(() => {});
   }
 }
 ```
@@ -44,10 +41,8 @@ export class ProductPage implements OnInit {
   template: `<form (submit)="save()"></form>`
 })
 export class ProductEditPage {
-  private readonly id = signal(0);
-
   save(): void {
-    toObservable(this.id);
+    effect(() => {});
   }
 }
 ```
@@ -56,9 +51,10 @@ export class ProductEditPage {
 ```typescript
 @Component() 
 export class ProductPage {
-  private readonly id = signal(0);
   private readonly dataObservable = someObservable.pipe(
-    switchMap(() => toObservable(this.id)),
+    tap(() => {
+      effect(() => {});
+    }),
   );
 }
 ```
@@ -68,26 +64,26 @@ export class ProductPage {
 
 - after awaiting (which is equivalent to be in a `.then()` callback)
 ```typescript
-const id = signal(0);
 const myGuard: CanActivateFn = async () => {
   await someAsyncFunction();
-  return toObservable(id);
+  effect(() => {});
+  return true;
 };
 ```
 
 - in non-Angular classes
 ```typescript
 export class Product {
-  private readonly id = signal(0);
-  private readonly idObservable = toObservable(this.id);
+  constructor() {
+    effect(() => {});
+  }
 }
 ```
 
 - in standalone functions
 ```typescript
 function someFunction(): void {
-  const id = signal(0);
-  toObservable(id);
+  effect(() => {});
 } 
 ```
 
@@ -97,10 +93,8 @@ function someFunction(): void {
 ```typescript
 @Component()
 export class ProductsPage {
-  private readonly id = signal(0);
-
   constructor(): void {
-    toObservable(this.id);
+    effect(() => {});
   }
 }
 ```
@@ -109,8 +103,7 @@ export class ProductsPage {
 ```typescript
 @Component()
 export class ProductPage implements OnInit {
-  private readonly id = signal(0);
-  private readonly idObservable = toObservable(this.id);
+  private readonly someEffect = effect(() => {});
 }
 ```
 
@@ -119,47 +112,22 @@ export class ProductPage implements OnInit {
 @Component()
 export class ProductPage implements OnInit {
   private readonly injector = inject(Injector);
-  private readonly id = signal(0);
 
   ngOnInit(): void {
-    toObservable(this.id, { injector: this.injector });
+    effect(() => {}, { injector: this.injector });
   }
 }
 ```
-
-- in guards, resolvers and interceptors
-```typescript
-const isAuthenticated = signal(false);
-const authGuard: CanActivateFn = () => {
-  return toObservable(isAuthenticated);
-};
-```
-
-- in routes options involving a function:
-```typescript
-const redirectPath = signal('/some/path');
-export const routes: Routes = [{
-  path: 'some/path',
-  redirectTo: () => toObservable(redirectPath),
-}];
-```
-
-> [!NOTE]
-> For some route options, injection context is only available from certain Angular versions, see the [known limitation documentation](../known-limitations/ROUTE_OPTIONS.md).
-
-- in some providers during app initialization:
-  - `provideAppInitializer()`
 
 - in explicit injection context
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class MyService {
-  private readonly id = signal(0);
   private readonly environmentInjector = inject(EnvironmentInjector);
 
   someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
-      toObservable(this.id)
+      effect(() => {});
     });
   }
 }
@@ -174,8 +142,7 @@ function customOperator(injector: Injector) {
   if (!injector) {
     assertInInjectionContext(customOperator);
   }
-  const id = signal(0);
-  toObservable(id, injector ? { injector } : undefined);
+  effect(() => {}, injector ? { injector } : undefined);
 }
 ```
 
