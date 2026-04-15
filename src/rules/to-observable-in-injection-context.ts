@@ -10,7 +10,7 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`toObservable()\` must be called in an injection context, or an \`Injector\` must be provided in the second argument object. Documentation: https://angular.dev/ecosystem/rxjs-interop#create-an-rxjs-observable-from-a-signal-with-toobservable`,
+      [messageId]: `\`toObservable()\` must be called in an injection context, or an \`Injector\` must be provided in the second argument object. Documentation: https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/TO_OBSERVABLE.md`,
     },
     docs: {
       description: `Checks that \`toObservable()\` is called in an injection context, or is called with an explicit \`Injector\` as an argument.`,

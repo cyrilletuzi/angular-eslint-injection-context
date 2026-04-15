@@ -1,7 +1,6 @@
 import type { RuleDefinition } from "@eslint/core";
 import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
-import { INJECTION_CONTEXT_DOC_LINK } from "../utils/documentation-links";
 
 export const ruleName = "inject-in-injection-context";
 const messageId = "injectInInjectionContext";
@@ -10,7 +9,7 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`inject()\` must be called in an injection context. See more at https://angular.dev/api/core/inject and ${INJECTION_CONTEXT_DOC_LINK}`,
+      [messageId]: `\`inject()\` must be called in an injection context. Documentation: https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/INJECT.md`,
     },
     docs: {
       description: `Checks that \`inject()\` is called in an injection context.`,

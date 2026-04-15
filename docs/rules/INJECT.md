@@ -1,6 +1,12 @@
 # inject-in-injection-context
 
-Prevent to use `inject()` outside an injection context, to avoid the `NG0203` runtime error.
+Checks that `inject()` is called inside an injection context, to avoid the `NG0203` runtime error.
+
+## Documentation
+
+- [`inject()` API reference](https://angular.dev/api/core/inject)
+- [General injection context documentation](https://angular.dev/guide/di/dependency-injection-context)
+- [`NG0203` runtime error](https://angular.dev/errors/NG0203)
 
 ## ❌ Invalid
 
@@ -180,7 +186,7 @@ This is a lint rule like any other, so it can be disabled when necessary:
 inject(MyService);
 ```
 
-### Synchronous callbacks
+### Synchronous callbacks (false positive)
 
 The injection context is lost only in _asynchronous_ callbacks. Technically, it should still be available in _synchronous_ callbacks. But it is not possible to differenciate asynchronous and synchronous callbacks during the lint analysis. So the rule will report when using `inject()` in _any_ callback.
 
@@ -188,7 +194,7 @@ While this is a limitation, it is acceptable as it is better to always do `injec
 - to avoid errors, as some functions can be synchronous or asynchronous depending on complex contexts, hard to understand for beginners, and not apparent at first glance even for experts (notably all RxJS functions)
 - to be consistent
 
-### runInInjectionContext() done before in the call stack
+### runInInjectionContext() done before in the call stack (false positive)
 
 This rule detects if `runInInjectionContext()` is called. But it does so only in the current function. If it was done before in another function in the call stack, the injection may still be available, but the lint analysis cannot detect that.
 

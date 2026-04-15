@@ -1,1 +1,0 @@
-export const INJECTION_CONTEXT_DOC_LINK = "https://angular.dev/guide/di/dependency-injection-context";

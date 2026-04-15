@@ -1,6 +1,6 @@
 # angular-eslint-injection-context
 
-ESLint rules for Angular injection context.
+ESLint rules for Angular injection context. Say goodbye to the `NG0203` runtime error.
 
 ## Requirements
 
@@ -47,9 +47,9 @@ module.exports = defineConfig({
 
 | Rule & documentation | in recommended |
 |---|---|
-| [inject-in-injection-context](./docs/INJECT_IN_INJECTION_CONTEXT.md) | ✅ |
+| [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
 | [take-until-destroyed-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
-| [to-observable-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
+| [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
 | [to-signal-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
 | [resource-in-injection-context](./docs/NO_INJECT_OUTSIDE_DI_CONTEXT.md) | ✅ |
@@ -69,11 +69,7 @@ No. When extracting the rule in its own repository, I took the opportunity to on
 
 > Is typed linting required?
 
-[Typed linting](https://typescript-eslint.io/getting-started/typed-linting) is not required for now, but it could change in the future if it helps to do better rules.
-
-> Will there be other rules?
-
-Yes, very probably. `inject()` is not the only function requiring an injection context, which is becoming a very central concept in latest Angular versions.
+[Typed linting](https://typescript-eslint.io/getting-started/typed-linting) is not required for now, but it could change in the future as some cases may require it.
 
 > Where are the tests?
 
