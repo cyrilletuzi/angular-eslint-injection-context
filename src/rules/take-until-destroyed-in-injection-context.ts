@@ -9,10 +9,11 @@ export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
     messages: {
-      [messageId]: `\`takeUntilDestroyed()\` must be called in an injection context, or a \`DestroyRef\` must be provided as the first argument. Documentation: https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed`,
+      [messageId]: `\`takeUntilDestroyed()\` must be called in an injection context, or a \`DestroyRef\` must be provided as the first argument.`,
     },
     docs: {
       description: `Checks that \`takeUntilDestroyed()\` is called in an injection context, or is called with an explicit \`DestroyRef\` as an argument.`,
+      url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/TAKE_UNTIL_DESTROYED.md',
       recommended: true,
     },
     schema: [],

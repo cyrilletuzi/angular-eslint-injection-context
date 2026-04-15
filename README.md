@@ -52,7 +52,7 @@ module.exports = defineConfig({
 | [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
 | [resource-in-injection-context](./docs/rules/RESOURCE.md.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md.md) | ✅ |
-| [take-until-destroyed-in-injection-context](./docs/) | ✅ |
+| [take-until-destroyed-in-injection-context](./docs/rules/TAKE_UNTIL_DESTROYED.md) | ✅ |
 | [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
 | [to-signal-in-injection-context](./docs/) | ✅ |
 | [pending-until-event-in-injection-context](./docs/rules/PENDING_UNTIL_EVENT.md) | ✅ |
@@ -70,6 +70,12 @@ No. When extracting the rule in its own repository, I took the opportunity to on
 > Is typed linting required?
 
 [Typed linting](https://typescript-eslint.io/getting-started/typed-linting) is not required for now, but it could change in the future as some cases may require it.
+
+> What difference with `@angular-eslint/no-implicit-take-until-destroyed`?
+
+The Angular ESLint rule for `takeUntilDestroyed()` was the inspiration for all the rules in this package. The `angular-eslint-injection-context/take-until-destroyed-in-injection-context` version here is more accurate because it checks a lot more cases.
+
+But they serve the same purpose, so it is not recommended to enable both of them at the same time. It is *not* enabled by default in Angular ESLint recommended preset; it *is* enabled by default in the recommended preset here.
 
 > Can I check a custom function?
 
