@@ -14,9 +14,9 @@ Checks that `pendingUntilEvent()` is called inside an injection context, or that
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/pending-until-event-in-injection-context": "error"
-  },
+  }
 }
 ```
 

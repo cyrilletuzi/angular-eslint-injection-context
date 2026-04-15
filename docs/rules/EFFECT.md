@@ -15,9 +15,9 @@ Checks that `effect()` is called inside an injection context, or that an explici
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/effect-in-injection-context": "error"
-  },
+  }
 }
 ```
 

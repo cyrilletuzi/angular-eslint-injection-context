@@ -8,9 +8,9 @@ Checks that `resource()` is called inside an injection context, or that an expli
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/resource-in-injection-context": "error"
-  },
+  }
 }
 ```
 

@@ -15,9 +15,9 @@ Checks that `toObservable()` is called inside an injection context, or that an e
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/to-observable-in-injection-context": "error"
-  },
+  }
 }
 ```
 

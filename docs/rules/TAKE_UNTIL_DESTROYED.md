@@ -15,9 +15,9 @@ Checks that `takeUntilDestroyed()` is called inside an injection context, or tha
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/take-until-destroyed-in-injection-context": "error"
-  },
+  }
 }
 ```
 

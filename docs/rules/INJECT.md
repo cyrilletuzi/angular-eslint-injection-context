@@ -14,9 +14,9 @@ Checks that `inject()` is called inside an injection context, to avoid the `NG02
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/inject-in-injection-context": "error"
-  },
+  }
 }
 ```
 

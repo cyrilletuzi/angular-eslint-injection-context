@@ -15,9 +15,9 @@ Checks that `rxResource()` is called inside an injection context, or that an exp
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/rx-resource-in-injection-context": "error"
-  },
+  }
 }
 ```
 

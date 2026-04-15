@@ -15,9 +15,9 @@ Checks that signal `form()` is called inside an injection context, or that an ex
 - or just this rule:
 ```json
 {
-  rules: {
+  "rules": {
     "angular-eslint-injection-context/signal-form-in-injection-context": "error"
-  },
+  }
 }
 ```
 
