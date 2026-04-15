@@ -26,7 +26,7 @@ export const ruleDefinition: RuleDefinition = {
         }
 
         /* Takes an `Injector` in second argument object: `toObservable(source, { injector })` */
-        if (!isCalledWithProperty(node, 1, 'injector') && !isInInjectionContext(node)) {
+        if (!isCalledWithProperty(node, 1, 'injector') && !isInInjectionContext(node, { includeAsyncAppInitializationFunctions: true })) {
           context.report({
             node,
             messageId,

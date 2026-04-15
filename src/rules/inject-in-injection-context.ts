@@ -25,7 +25,7 @@ export const ruleDefinition: RuleDefinition = {
           return;
         }
 
-        if (!isInInjectionContext(node, { includeFactories: true, includeAppInitializationFunctions: true })) {
+        if (!isInInjectionContext(node, { includeFactories: true, includeAsyncAppInitializationFunctions: true, includeSyncAppInitializationFunctions: true })) {
           context.report({
             node,
             messageId,

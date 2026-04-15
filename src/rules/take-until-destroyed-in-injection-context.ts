@@ -25,7 +25,7 @@ export const ruleDefinition: RuleDefinition = {
         }
 
         /* Takes a `DestroyRef` as first argument: `takeUntilDestroyed(this.destroyRef)` */
-        if (node.arguments.length < 1 && !isInInjectionContext(node)) {
+        if (node.arguments.length < 1 && !isInInjectionContext(node, { includeAsyncAppInitializationFunctions: true })) {
           context.report({
             node,
             messageId,

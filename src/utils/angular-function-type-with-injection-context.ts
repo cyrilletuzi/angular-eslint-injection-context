@@ -2,7 +2,7 @@ import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
 import { findNearestAncestorOf } from "./ast-traversal";
 import { isAfterAwait } from "./await-detection";
 
-export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, { includeAppInitializationFunctions = false } = {}): boolean {
+export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, { includeSyncAppInitializationFunctions = false } = {}): boolean {
   const functionTypesWithInjectionContext: ReadonlySet<string> = new Set([
     "CanActivateFn",
     "CanActivateChildFn",
@@ -15,7 +15,7 @@ export function isInFunctionTypeWithInjectionContext(node: TSESTree.Node, { incl
     "LoadChildren",
     "LoadChildrenCallback",
     "HttpInterceptorFn",
-    ...(includeAppInitializationFunctions ? [
+    ...(includeSyncAppInitializationFunctions ? [
       // see https://angular.dev/api/router/ViewTransitionsFeatureOptions#onViewTransitionCreated
       "ViewTransitionsFeatureOptions",
     ] : [])
