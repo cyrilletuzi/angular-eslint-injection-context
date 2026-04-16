@@ -2,7 +2,7 @@
 
 This known limitation is a false negative.
 
-For functions accepting an explicit `Injector` in an object argument, the lint rules can only check the `injector` property is actually present if the argument is a literal object:
+For functions accepting an explicit injection context in an object argument, the lint rules can only check the `injector` property is actually present if the argument is a literal object:
 
 ```typescript
 toSignal(someObservable, { injector });

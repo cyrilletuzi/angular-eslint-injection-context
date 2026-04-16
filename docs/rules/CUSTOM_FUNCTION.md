@@ -48,7 +48,7 @@ function myCustomOperator(data: string, { injector }: { injector: Injector } = {
   if (!injector) {
     assertInInjectionContext(myCustomOperator);
   }
-  injector ??= inject(Injector);
+  const router = injector ? injector.get(Router) : inject(Router);
 }
 myCustomOperator(); // in injection context
 myCustomOperator('test', { injector }); // outside injection context
