@@ -4,7 +4,7 @@ ESLint rules for Angular injection context.
 
 Checks that `inject()` and other similar functions (`takeUntilDestroyed()`, `toSignal()`, `resource()`, `form()`...) are called in an injection context.
 
-Get back a reliable dependency injection system by restoring the _compilation_-oriented philosophy of Angular and TypeScript, and say goodbye to the infamous [`NG0203` _runtime_ error](https://angular.dev/errors/NG0203): "`inject()` must be called from an injection context".
+Get the flexibility of the new Angular dependency injection system, but keep the _compilation_ safety, and say goodbye to the infamous [`NG0203` _runtime_ error](https://angular.dev/errors/NG0203): "`inject()` must be called from an injection context".
 
 > [!TIP]
 > I am also the author of the [Angular Schematics extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=cyrilletuzi.angular-schematics), installed 1.5 million times. Feel free to give it a try.
