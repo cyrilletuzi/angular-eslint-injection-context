@@ -14,6 +14,10 @@ interface FunctionConfig {
   readonly allowedSpecialInjectionContexts?: readonly SpecialInjectionContext[];
 }
 
+interface RuleOptions {
+  readonly functions?: readonly FunctionConfig[];
+}
+
 export const ruleDefinition: RuleDefinition = {
   meta: {
     type: "problem",
@@ -22,67 +26,75 @@ export const ruleDefinition: RuleDefinition = {
       url: 'https://github.com/cyrilletuzi/angular-eslint-injection-context/blob/main/docs/rules/CUSTOM_FUNCTION.md',
     },
     schema: [{
-      type: "array",
-      minItems: 1,
-      description: "List of the functions to check.",
-      items: {
-        type: "object",
-        additionalProperties: false,
-        description: "Configuration of a functions to check.",
-        properties: {
-          functionName: {
-            type: "string",
-            minLength: 1,
-            description: "Name of the function to check, for example 'customInject'.",
-          },
-          argumentPosition: {
-            type: "number",
-            minimum: 0,
-            description: "0-based position of the argument in which it is possible to pass an explicit injection context."
-          },
-          argumentPropertyName: {
-            type: "string",
-            minLength: 1,
-            description: "If the explicit injection context argument is an object, the name of the property, for example 'injector'. If not provided, the rule will consider the argument is directly the explicit injection context."
-          },
-          allowedSpecialInjectionContexts: {
-            type: "array",
-            description: "List of special injection contexts to allow.",
-            items: {
-              type: "string",
-              enum: ["routing", "http", "factory", "observable", "applicationInitialization"],
-              description: "Special injection contexts to allow: routing features, HTTP features, factories or contexts accepting observables.",
+      type: "object",
+      additionalProperties: false,
+      description: "Configuration of the rule.",
+      properties: {
+        functions: {
+          type: "array",
+          minItems: 1,
+          description: "List of the functions to check.",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            description: "Configuration of a functions to check.",
+            properties: {
+              functionName: {
+                type: "string",
+                minLength: 1,
+                description: "Name of the function to check, for example 'customInject'.",
+              },
+              argumentPosition: {
+                type: "number",
+                minimum: 0,
+                description: "0-based position of the argument in which it is possible to pass an explicit injection context."
+              },
+              argumentPropertyName: {
+                type: "string",
+                minLength: 1,
+                description: "If the explicit injection context argument is an object, the name of the property, for example 'injector'. If not provided, the rule will consider the argument is directly the explicit injection context."
+              },
+              allowedSpecialInjectionContexts: {
+                type: "array",
+                description: "List of special injection contexts to allow.",
+                items: {
+                  type: "string",
+                  enum: ["routing", "http", "factory", "observable", "applicationInitialization"],
+                  description: "Special injection contexts to allow: routing features, HTTP features, factories or contexts accepting observables.",
+                },
+              },
             },
+            required: ["functionName", "argumentPosition"],
           },
         },
-        required: ["functionName", "argumentPosition"],
       },
     }],
   },
   create(context) {
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        const functionsToCheck = context.options[0] as readonly FunctionConfig[];
+        const ruleOptions = context.options[0] as RuleOptions | undefined;
+        const functionsConfigs = ruleOptions?.functions ?? [];
 
-        for (const functionToCheck of functionsToCheck) {
+        for (const functionConfig of functionsConfigs) {
           if (
             node.callee.type === AST_NODE_TYPES.Identifier &&
-            node.callee.name === functionToCheck.functionName
+            node.callee.name === functionConfig.functionName
           ) {
             if ((
-              functionToCheck.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionToCheck.argumentPosition, functionToCheck.argumentPropertyName) ||
-              node.arguments.length < functionToCheck.argumentPosition + 1
+              functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
+              node.arguments.length < functionConfig.argumentPosition + 1
             ) &&
               !isInInjectionContext(node, {
-                includeRouting: functionToCheck.allowedSpecialInjectionContexts?.includes("routing") ?? false,
-                includeHttp: functionToCheck.allowedSpecialInjectionContexts?.includes("http") ?? false,
-                includeFactories: functionToCheck.allowedSpecialInjectionContexts?.includes("factory") ?? false,
-                includeAsyncAppInitializationFunctions: functionToCheck.allowedSpecialInjectionContexts?.includes("observable") ?? false,
-                includeSyncAppInitializationFunctions: functionToCheck.allowedSpecialInjectionContexts?.includes("applicationInitialization") ?? false,
+                includeRouting: functionConfig.allowedSpecialInjectionContexts?.includes("routing") ?? false,
+                includeHttp: functionConfig.allowedSpecialInjectionContexts?.includes("http") ?? false,
+                includeFactories: functionConfig.allowedSpecialInjectionContexts?.includes("factory") ?? false,
+                includeAsyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("observable") ?? false,
+                includeSyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("applicationInitialization") ?? false,
               })) {
               context.report({
                 node,
-                message: `\`${functionToCheck.functionName}()\` must be called in an injection context, or ${functionToCheck.argumentPropertyName !== undefined ? `\`${functionToCheck.argumentPropertyName}\`` : `an explicit injection context`} must be provided in an argument.`,
+                message: `\`${functionConfig.functionName}()\` must be called in an injection context, or ${functionConfig.argumentPropertyName !== undefined ? `\`${functionConfig.argumentPropertyName}\`` : `an explicit injection context`} must be provided in an argument.`,
               });
             }
             /* No need to check other functions names if one has already matched */
