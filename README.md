@@ -60,6 +60,7 @@ module.exports = defineConfig({
 | [to-observable-in-injection-context](./docs/rules/TO_OBSERVABLE.md) | ✅ |
 | [to-signal-in-injection-context](./docs/rules/TO_SIGNAL.md) | ✅ |
 | [pending-until-event-in-injection-context](./docs/rules/PENDING_UNTIL_EVENT.md) | ✅ |
+| [custom-function-in-injection-context](./docs/rules/CUSTOM_FUNCTION.md) | ❌ |
 
 ## FAQ
 
@@ -83,7 +84,7 @@ But they serve the same purpose, so it is not recommended to enable both of them
 
 > Can I check a custom function?
 
-Soon! A rule is in prepation to check custom functions requiring an injection context.
+Yes, with the [`custom-function-in-injection-context`](./docs/rules/CUSTOM_FUNCTION.md) rule.
 
 > Where are the tests?
 

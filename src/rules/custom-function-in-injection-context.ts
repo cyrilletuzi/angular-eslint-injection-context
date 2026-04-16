@@ -5,10 +5,10 @@ import { isCalledWithProperty } from "../utils/ast-call-argument";
 
 export const ruleName = "custom-function-in-injection-context";
 
-type SpecialInjectionContext = "routing" | "http" | "factory" | "observable" | "applicationInitialization";
+type SpecialInjectionContext = "routing" | "http" | "factory" | "asyncApplicationInitialization" | "syncApplicationInitialization";
 
 interface FunctionConfig {
-  readonly functionName: string;
+  readonly name: string;
   readonly argumentPosition: number;
   readonly argumentPropertyName?: string | undefined;
   readonly allowedSpecialInjectionContexts?: readonly SpecialInjectionContext[];
@@ -39,7 +39,7 @@ export const ruleDefinition: RuleDefinition = {
             additionalProperties: false,
             description: "Configuration of a functions to check.",
             properties: {
-              functionName: {
+              name: {
                 type: "string",
                 minLength: 1,
                 description: "Name of the function to check, for example 'customInject'.",
@@ -59,12 +59,12 @@ export const ruleDefinition: RuleDefinition = {
                 description: "List of special injection contexts to allow.",
                 items: {
                   type: "string",
-                  enum: ["routing", "http", "factory", "observable", "applicationInitialization"],
-                  description: "Special injection contexts to allow: routing features, HTTP features, factories or contexts accepting observables.",
+                  enum: ["routing", "http", "factory", "asyncApplicationInitialization", "syncApplicationInitialization"],
+                  description: "Special injection contexts to allow: routing features, HTTP features, factories or sync / async application initilization features.",
                 },
               },
             },
-            required: ["functionName", "argumentPosition"],
+            required: ["name", "argumentPosition"],
           },
         },
       },
@@ -79,7 +79,7 @@ export const ruleDefinition: RuleDefinition = {
         for (const functionConfig of functionsConfigs) {
           if (
             node.callee.type === AST_NODE_TYPES.Identifier &&
-            node.callee.name === functionConfig.functionName
+            node.callee.name === functionConfig.name
           ) {
             if ((
               functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
@@ -89,12 +89,12 @@ export const ruleDefinition: RuleDefinition = {
                 includeRouting: functionConfig.allowedSpecialInjectionContexts?.includes("routing") ?? false,
                 includeHttp: functionConfig.allowedSpecialInjectionContexts?.includes("http") ?? false,
                 includeFactories: functionConfig.allowedSpecialInjectionContexts?.includes("factory") ?? false,
-                includeAsyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("observable") ?? false,
-                includeSyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("applicationInitialization") ?? false,
+                includeAsyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("asyncApplicationInitialization") ?? false,
+                includeSyncAppInitializationFunctions: functionConfig.allowedSpecialInjectionContexts?.includes("syncApplicationInitialization") ?? false,
               })) {
               context.report({
                 node,
-                message: `\`${functionConfig.functionName}()\` must be called in an injection context, or ${functionConfig.argumentPropertyName !== undefined ? `\`${functionConfig.argumentPropertyName}\`` : `an explicit injection context`} must be provided in an argument.`,
+                message: `\`${functionConfig.name}()\` must be called in an injection context, or ${functionConfig.argumentPropertyName !== undefined ? `\`${functionConfig.argumentPropertyName}\`` : `an explicit injection context`} must be provided in an argument.`,
               });
             }
             /* No need to check other functions names if one has already matched */
