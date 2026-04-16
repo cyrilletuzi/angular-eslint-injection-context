@@ -1,8 +1,10 @@
 # angular-eslint-injection-context
 
-ESLint rules for Angular injection context. Say goodbye to the `NG0203` runtime error!
+ESLint rules for Angular injection context.
 
-Checks that `inject()` and other functions (`takeUntilDestroyed()`, `toSignal()`, `resource()`, `form()`...) are called in an injection context.
+Checks that `inject()` and other similar functions (`takeUntilDestroyed()`, `toSignal()`, `resource()`, `form()`...) are called in an injection context.
+
+Get back a reliable dependency injection system by restoring the _compilation_-oriented philosophy of Angular and TypeScript, and say goodbye to the infamous [`NG0203` _runtime_ error](https://angular.dev/errors/NG0203): "`inject()` must be called from an injection context".
 
 ## Requirements
 
