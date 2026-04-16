@@ -32,7 +32,6 @@ export const ruleDefinition: RuleDefinition = {
       properties: {
         functions: {
           type: "array",
-          minItems: 1,
           description: "List of the functions to check.",
           items: {
             type: "object",
