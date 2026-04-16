@@ -12,7 +12,7 @@ Checks that a function is called inside an injection context, or that ax explici
 
 - `functions`: array of configuration objects of the functions to check
   - `name`: name of the function to check, for example 'customInject' (required)
-  - `argumentPosition`: 0-based position of the argument in which it is possible to pass an explicit injection context (required)
+  - `argumentPosition`: 0-based position of the argument in which it is possible to pass an explicit injection context; if not provided, the function will only be allowed in injection context
   - `argumentPropertyName`: if the explicit injection context argument is an object, the name of the property, for example 'injector'; if not provided, the rule will consider the argument is directly the explicit injection context
   - `allowedSpecialInjectionContexts`: array of special injection contexts to allow: `routing`, `http`, `factory`, `observable`, `applicationInitialization` (see valid cases below)
 

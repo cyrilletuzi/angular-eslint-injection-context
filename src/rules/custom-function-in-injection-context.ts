@@ -9,7 +9,7 @@ type SpecialInjectionContext = "routing" | "http" | "factory" | "asyncApplicatio
 
 interface FunctionConfig {
   readonly name: string;
-  readonly argumentPosition: number;
+  readonly argumentPosition?: number | undefined;
   readonly argumentPropertyName?: string | undefined;
   readonly allowedSpecialInjectionContexts?: readonly SpecialInjectionContext[];
 }
@@ -63,7 +63,7 @@ export const ruleDefinition: RuleDefinition = {
                 },
               },
             },
-            required: ["name", "argumentPosition"],
+            required: ["name"],
           },
         },
       },
@@ -81,8 +81,10 @@ export const ruleDefinition: RuleDefinition = {
             node.callee.name === functionConfig.name
           ) {
             if ((
-              functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
-              node.arguments.length < functionConfig.argumentPosition + 1
+              functionConfig.argumentPosition !== undefined && (
+                functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
+                node.arguments.length < functionConfig.argumentPosition + 1
+              )
             ) &&
               !isInInjectionContext(node, {
                 includeRouting: functionConfig.allowedSpecialInjectionContexts?.includes("routing") ?? false,
