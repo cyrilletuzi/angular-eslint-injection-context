@@ -81,10 +81,9 @@ export const ruleDefinition: RuleDefinition = {
             node.callee.name === functionConfig.name
           ) {
             if ((
-              functionConfig.argumentPosition !== undefined && (
-                functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
-                node.arguments.length < functionConfig.argumentPosition + 1
-              )
+              functionConfig.argumentPosition === undefined ||
+              functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||
+              node.arguments.length < functionConfig.argumentPosition + 1
             ) &&
               !isInInjectionContext(node, {
                 includeRouting: functionConfig.allowedSpecialInjectionContexts?.includes("routing") ?? false,
