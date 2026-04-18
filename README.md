@@ -52,6 +52,9 @@ module.exports = defineConfig({
 
 3. `npm run lint`
 
+> [!NOTE]
+> In VS Code, it may be required to restart for the ESLint extension to apply the new rules.
+
 ## Rules
 
 | Rule & documentation | in recommended |
