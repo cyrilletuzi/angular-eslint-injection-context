@@ -94,6 +94,14 @@ But they serve the same purpose, so it is not recommended to enable both of them
 
 Yes, with the [`custom-function-in-injection-context`](./docs/rules/CUSTOM_FUNCTION.md) rule.
 
+> Why not one rule for all functions?
+
+First, to be able to disable specific rules if a project does not use some functions.
+
+Second, because while similar, there are some differences in the functions signatures and in special contexts where a function makes sense or not.
+
+Yes, with the [`custom-function-in-injection-context`](./docs/rules/CUSTOM_FUNCTION.md) rule.
+
 > Where are the tests?
 
 The tests are already done and passing in the Angular ESLint [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892). I may migrate them here later, but it takes time.
