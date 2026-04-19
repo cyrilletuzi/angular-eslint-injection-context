@@ -6,7 +6,7 @@ Checks that `inject()` and similar functions (`takeUntilDestroyed()`, `toSignal(
 
 Get the flexibility of the new Angular dependency injection system, but keep the _compilation_ safety, and say goodbye to the infamous [`NG0203`](https://angular.dev/errors/NG0203) _runtime_ error: "`inject()` must be called from an injection context".
 
-> [!TIP]
+> [!NOTE]
 > Found this useful? I’m open to freelance & full-time opportunities.
 > Feel free to reach out on [LinkedIn](https://www.linkedin.com/in/cyrilletuzi/) or [Bluesky](https://bsky.app/profile/cyrilletuzi.com).
 
