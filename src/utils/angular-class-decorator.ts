@@ -30,7 +30,7 @@ export function findAngularClassDecorator({ decorators }: TSESTree.ClassDeclarat
         : undefined;
     })
     .filter((item) => item !== undefined)
-    .find((value: string): value is AngularClassDecorator => {
+    .find((value): value is AngularClassDecorator => {
       const angularClassDecorators: ReadonlySet<AngularClassDecorator> = new Set([
         "Component", "Directive", "Injectable", "NgModule", "Pipe"
       ]);
