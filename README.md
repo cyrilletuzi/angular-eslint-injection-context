@@ -4,6 +4,8 @@ ESLint rules for Angular injection context.
 
 **Checks that `inject()` and similar functions (`takeUntilDestroyed()`, `toSignal()`, `resource()`, `form()`...) are called in an injection context**, to avoid the [`NG0203`](https://angular.dev/errors/NG0203) _runtime_ error.
 
+A [blog post on Dev.to](https://dev.to/cyrilletuzi/angular-injection-context-lint-rules-say-goodbye-to-ng0203-error-3g5i) explains the context and the purpose of this tool in more detailss.
+
 > [!NOTE]
 > Find this tool useful? I’m open to freelance & full-time opportunities.
 > Feel free to reach out on [LinkedIn](https://www.linkedin.com/in/cyrilletuzi/) or [Bluesky](https://bsky.app/profile/cyrilletuzi.com).
