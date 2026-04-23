@@ -52,6 +52,34 @@ function isPropertyInProviderFactory(
   return false;
 }
 
+function isPropertyInServiceFactory(
+  property: TSESTree.PropertyComputedName | TSESTree.PropertyNonComputedName,
+): boolean {
+  // Check the property is called `useFactory`
+  if (
+    property.key.type !== AST_NODE_TYPES.Identifier ||
+    property.key.name !== "factory"
+  ) {
+    return false;
+  }
+
+  // Check the property is inside an `Service()`
+  const classDeclaration = findNearestAncestorOf(
+    property,
+    (node) => node.type === AST_NODE_TYPES.ClassDeclaration,
+  );
+
+  if (!classDeclaration) {
+    return false;
+  }
+
+  if (findAngularClassDecorator(classDeclaration) === "Service") {
+    return true;
+  }
+
+  return false;
+}
+
 function isPropertyInInjectableFactory(
   property: TSESTree.PropertyComputedName | TSESTree.PropertyNonComputedName,
 ): boolean {
@@ -91,6 +119,7 @@ export function isInFactoryFunction(node: TSESTree.Node): boolean {
     property &&
     (isPropertyInProviderFactory(property) ||
       isPropertyInInjectionTokenFactory(property) ||
+      isPropertyInServiceFactory(property) ||
       isPropertyInInjectableFactory(property))
   ) {
     return true;
