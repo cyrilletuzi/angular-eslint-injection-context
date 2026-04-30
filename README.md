@@ -61,6 +61,7 @@ module.exports = defineConfig({
 | Rule & documentation | in recommended |
 |---|---|
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
+| [inject-async-in-injection-context](./docs/rules/INJECT_ASYNC.md) | ✅ |
 | [effect-in-injection-context](./docs/rules/EFFECT.md) | ✅ |
 | [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
 | [resource-in-injection-context](./docs/rules/RESOURCE.md) | ✅ |
