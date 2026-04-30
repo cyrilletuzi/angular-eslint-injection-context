@@ -1,7 +1,8 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
 import * as customFunctionInInjectionContext from "./rules/custom-function-in-injection-context.js";
 import * as effectInInjectionContext from "./rules/effect-in-injection-context.js";
-import * as noInjectOutsideDiContext from "./rules/inject-in-injection-context.js";
+import * as injectAsyncInInjectionContext from "./rules/inject-async-in-injection-context.js";
+import * as injectInInjectionContext from "./rules/inject-in-injection-context.js";
 import * as pendingUntilEventInInjectionContext from "./rules/pending-until-event-in-injection-context.js";
 import * as resourceInInjectionContext from "./rules/resource-in-injection-context.js";
 import * as rxResourceInInjectionContext from "./rules/rx-resource-in-injection-context.js";
@@ -22,7 +23,8 @@ const plugin = {
   },
   meta: { name, version },
   rules: {
-    [noInjectOutsideDiContext.ruleName]: noInjectOutsideDiContext.ruleDefinition,
+    [injectInInjectionContext.ruleName]: injectInInjectionContext.ruleDefinition,
+    [injectAsyncInInjectionContext.ruleName]: injectAsyncInInjectionContext.ruleDefinition,
     [takeUntilDestroyedInInjectionContext.ruleName]: takeUntilDestroyedInInjectionContext.ruleDefinition,
     [toSignalInInjectionContext.ruleName]: toSignalInInjectionContext.ruleDefinition,
     [toObservableInInjectionContext.ruleName]: toObservableInInjectionContext.ruleDefinition,
@@ -40,7 +42,8 @@ const recommended: ConfigObject = {
     [name]: plugin
   },
   rules: {
-    [`${name}/${noInjectOutsideDiContext.ruleName}`]: "error",
+    [`${name}/${injectInInjectionContext.ruleName}`]: "error",
+    [`${name}/${injectAsyncInInjectionContext.ruleName}`]: "error",
     [`${name}/${takeUntilDestroyedInInjectionContext.ruleName}`]: "error",
     [`${name}/${toSignalInInjectionContext.ruleName}`]: "error",
     [`${name}/${toObservableInInjectionContext.ruleName}`]: "error",
