@@ -36,5 +36,24 @@ export function isInFunctionWithInjectionContext(node: TSESTree.Node, {
     return true;
   }
 
+  if (callExpression?.callee.type === AST_NODE_TYPES.MemberExpression) {
+    const staticFunctionsWithInjectionContext: ReadonlyMap<string, string> = new Map([
+      // see https://angular.dev/api/core/testing/TestBed#runInInjectionContext
+      ["TestBed", "runInInjectionContext"],
+    ]);
+
+    for (const [className, functionName] of staticFunctionsWithInjectionContext) {
+      if (
+        callExpression.callee.object.type === AST_NODE_TYPES.Identifier &&
+        callExpression.callee.object.name === className &&
+        callExpression.callee.property.type === AST_NODE_TYPES.Identifier &&
+        callExpression.callee.property.name === functionName &&
+        !isAfterAwait(node)
+      ) {
+        return true;
+      }
+    }
+  }
+
   return false;
 }
