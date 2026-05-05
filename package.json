@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
-    "eslint": "^10.2.1",
+    "eslint": "^10.3.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.1"
+    "typescript-eslint": "^8.59.2"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^8.58.1"
