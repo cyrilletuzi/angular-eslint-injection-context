@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 (2026-05-05)
+
+- feat: support `TestBed.runInInjectionContext()`
+
 ## 1.3.0 (2026-04-30)
 
 - feat: add `inject-async-in-injection-context` rule, and include it in the recommended preset
