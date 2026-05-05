@@ -1,6 +1,6 @@
 {
   "name": "angular-eslint-injection-context",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Angular injection context lint rules for ESLint",
   "keywords": [
     "angular",
