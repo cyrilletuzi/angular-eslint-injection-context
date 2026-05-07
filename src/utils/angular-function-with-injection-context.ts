@@ -20,6 +20,8 @@ export function isInFunctionWithInjectionContext(node: TSESTree.Node, {
       "provideEnvironmentInitializer",
       // see https://angular.dev/api/router/withViewTransitions
       "withViewTransitions",
+      // see https://next.angular.dev/api/core/provideWebMcpTools
+      "provideWebMcpTools",
     ] : []),
   ]);
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 (2026-05-07)
+
+- feat: support `provideWebMcpTools()`
+
 ## 1.4.0 (2026-05-05)
 
 - feat: support `TestBed.runInInjectionContext()`
