@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.3 (2026-05-10)
+## 1.5.4 (2026-05-10)
 
 - perf: use selectors
 
