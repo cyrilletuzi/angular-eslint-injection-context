@@ -1,5 +1,5 @@
 import type { RuleDefinition } from "@eslint/core";
-import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
+import type { TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
 import { isCalledWithProperty } from "../utils/ast-call-argument";
 
@@ -21,10 +21,8 @@ export const ruleDefinition: RuleDefinition = {
   },
   create(context) {
     return {
-      CallExpression(node: TSESTree.CallExpression) {
+      "CallExpression[callee.type='Identifier'][callee.name='toSignal']"(node: TSESTree.CallExpression) {
         if (
-          node.callee.type === AST_NODE_TYPES.Identifier &&
-          node.callee.name === "toSignal" &&
           /* Takes an `Injector` or `manualCleanup` in second argument object: `toSignal(obs, { injector })` or `toSignal(obs, { manualCleanup })` */
           !isCalledWithProperty(node, 1, 'injector') &&
           !isCalledWithProperty(node, 1, 'manualCleanup') &&

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 (2026-05-10)
+
+- perf: use selectors
+
 ## 1.5.0 (2026-05-07)
 
 - feat: support `provideWebMcpTools()`

@@ -1,5 +1,5 @@
 import type { RuleDefinition } from "@eslint/core";
-import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
+import type { TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
 import { isCalledWithProperty } from "../utils/ast-call-argument";
 
@@ -71,15 +71,13 @@ export const ruleDefinition: RuleDefinition = {
   },
   create(context) {
     return {
-      CallExpression(node: TSESTree.CallExpression) {
+      "CallExpression[callee.type='Identifier']"(node: TSESTree.CallExpression) {
         const ruleOptions = context.options[0] as RuleOptions | undefined;
         const functionsConfigs = ruleOptions?.functions ?? [];
+        const callee = node.callee as TSESTree.Identifier;
 
         for (const functionConfig of functionsConfigs) {
-          if (
-            node.callee.type === AST_NODE_TYPES.Identifier &&
-            node.callee.name === functionConfig.name
-          ) {
+          if (callee.name === functionConfig.name) {
             if ((
               functionConfig.argumentPosition === undefined ||
               functionConfig.argumentPropertyName !== undefined && !isCalledWithProperty(node, functionConfig.argumentPosition, functionConfig.argumentPropertyName) ||

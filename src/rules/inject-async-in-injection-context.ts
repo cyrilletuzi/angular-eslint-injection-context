@@ -1,5 +1,5 @@
 import type { RuleDefinition } from "@eslint/core";
-import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
+import type { TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
 
 export const ruleName = "inject-async-in-injection-context";
@@ -20,10 +20,8 @@ export const ruleDefinition: RuleDefinition = {
   },
   create(context) {
     return {
-      CallExpression(node: TSESTree.CallExpression) {
+      "CallExpression[callee.type='Identifier'][callee.name='injectAsync']"(node: TSESTree.CallExpression) {
         if (
-          node.callee.type === AST_NODE_TYPES.Identifier &&
-          node.callee.name === "injectAsync" &&
           !isInInjectionContext(node, {
             /* `injectAsync()` is accepted in all asynchronous-compatible injection contexts */
             includeRouting: true,

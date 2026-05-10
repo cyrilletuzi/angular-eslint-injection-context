@@ -1,5 +1,5 @@
 import type { RuleDefinition } from "@eslint/core";
-import { AST_NODE_TYPES, type TSESTree } from "@typescript-eslint/utils";
+import type { TSESTree } from "@typescript-eslint/utils";
 import { isInInjectionContext } from "../utils/angular-injection-context";
 import { isCalledWithProperty } from "../utils/ast-call-argument";
 
@@ -21,10 +21,8 @@ export const ruleDefinition: RuleDefinition = {
   },
   create(context) {
     return {
-      CallExpression(node: TSESTree.CallExpression) {
+      "CallExpression[callee.type='Identifier'][callee.name='toObservable']"(node: TSESTree.CallExpression) {
         if (
-          node.callee.type === AST_NODE_TYPES.Identifier &&
-          node.callee.name === "toObservable" &&
           /* Takes an `Injector` in second argument object: `toObservable(source, { injector })` */
           !isCalledWithProperty(node, 1, 'injector') &&
           !isInInjectionContext(node, {
