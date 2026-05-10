@@ -72,6 +72,9 @@ module.exports = defineConfig({
 | [pending-until-event-in-injection-context](./docs/rules/PENDING_UNTIL_EVENT.md) | ✅ |
 | [custom-function-in-injection-context](./docs/rules/CUSTOM_FUNCTION.md) | ❌ |
 
+> [!TIP]
+> I also published [other lint rules for Angular zoneless](https://github.com/cyrilletuzi/angular-eslint-zoneless).
+
 ## FAQ
 
 > Why not in Angular ESLint?
