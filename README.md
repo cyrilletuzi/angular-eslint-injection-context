@@ -63,6 +63,9 @@ module.exports = defineConfig({
 | [inject-in-injection-context](./docs/rules/INJECT.md) | ✅ |
 | [inject-async-in-injection-context](./docs/rules/INJECT_ASYNC.md) | ✅ |
 | [effect-in-injection-context](./docs/rules/EFFECT.md) | ✅ |
+| [after-every-render-in-injection-context](./docs/rules/AFTER_EVERY_RENDER.md) | ✅ |
+| [after-next-render-in-injection-context](./docs/rules/AFTER_NEXT_RENDER.md) | ✅ |
+| [after-render-effect-in-injection-context](./docs/rules/AFTER_RENDER_EFFECT.md) | ✅ |
 | [signal-form-in-injection-context](./docs/rules/SIGNAL_FORM.md) | ✅ |
 | [resource-in-injection-context](./docs/rules/RESOURCE.md) | ✅ |
 | [rx-resource-in-injection-context](./docs/rules/RX_RESOURCE.md) | ✅ |

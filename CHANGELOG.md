@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0 (2026-05-11)
+
+- feat: add `after-every-render-in-injection-context` rule (in the recommended preset)
+- feat: add `after-next-render-in-injection-context` rule (in the recommended preset)
+- feat: add `after-render-effect-in-injection-context` rule (in the recommended preset)
+
 ## 1.5.4 (2026-05-10)
 
 - perf: use selectors

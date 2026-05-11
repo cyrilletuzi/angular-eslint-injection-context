@@ -1,4 +1,7 @@
 import type { ConfigObject, Plugin } from "@eslint/core";
+import * as afterEveryRenderInInjectionContext from "./rules/after-every-render-in-injection-context.js";
+import * as afterNextRenderInInjectionContext from "./rules/after-next-render-in-injection-context.js";
+import * as afterRenderEffectInInjectionContext from "./rules/after-render-effect-in-injection-context.js";
 import * as customFunctionInInjectionContext from "./rules/custom-function-in-injection-context.js";
 import * as effectInInjectionContext from "./rules/effect-in-injection-context.js";
 import * as injectAsyncInInjectionContext from "./rules/inject-async-in-injection-context.js";
@@ -31,6 +34,9 @@ const plugin = {
     [rxResourceInInjectionContext.ruleName]: rxResourceInInjectionContext.ruleDefinition,
     [resourceInInjectionContext.ruleName]: resourceInInjectionContext.ruleDefinition,
     [effectInInjectionContext.ruleName]: effectInInjectionContext.ruleDefinition,
+    [afterEveryRenderInInjectionContext.ruleName]: afterEveryRenderInInjectionContext.ruleDefinition,
+    [afterNextRenderInInjectionContext.ruleName]: afterNextRenderInInjectionContext.ruleDefinition,
+    [afterRenderEffectInInjectionContext.ruleName]: afterRenderEffectInInjectionContext.ruleDefinition,
     [signalFormInInjectionContext.ruleName]: signalFormInInjectionContext.ruleDefinition,
     [pendingUntilEventInInjectionContext.ruleName]: pendingUntilEventInInjectionContext.ruleDefinition,
     [customFunctionInInjectionContext.ruleName]: customFunctionInInjectionContext.ruleDefinition,
@@ -50,6 +56,9 @@ const recommended: ConfigObject = {
     [`${name}/${rxResourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${resourceInInjectionContext.ruleName}`]: "error",
     [`${name}/${effectInInjectionContext.ruleName}`]: "error",
+    [`${name}/${afterEveryRenderInInjectionContext.ruleName}`]: "error",
+    [`${name}/${afterNextRenderInInjectionContext.ruleName}`]: "error",
+    [`${name}/${afterRenderEffectInInjectionContext.ruleName}`]: "error",
     [`${name}/${signalFormInInjectionContext.ruleName}`]: "error",
     [`${name}/${pendingUntilEventInInjectionContext.ruleName}`]: "error",
   },
