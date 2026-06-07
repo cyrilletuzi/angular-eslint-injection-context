@@ -82,7 +82,7 @@ module.exports = defineConfig({
 
 > Why not in Angular ESLint?
 
-I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now, then rejected without a reason. So I decided to publish the rule by myself, and to add many more.
+I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months, then rejected without a reason. So I decided to publish the rule by myself, and to add many more.
 
 > Is Angular ESLint required?
 
