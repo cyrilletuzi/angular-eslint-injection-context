@@ -108,8 +108,6 @@ First, to be able to disable specific rules if a project does not use some funct
 
 Second, because while similar, there are some differences in the functions signatures and in special contexts where a function makes sense or not.
 
-Yes, with the [`custom-function-in-injection-context`](./docs/rules/CUSTOM_FUNCTION.md) rule.
-
 > Is adding a plugin making the project heavier?
 
 No, the package has 0 dependency. It just add lint rules using TypeScript ESLint, which is already installed in the project.
