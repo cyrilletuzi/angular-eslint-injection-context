@@ -82,7 +82,7 @@ module.exports = defineConfig({
 
 > Why not in Angular ESLint?
 
-I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now. So I decided to publish the rule by myself, and to add many more.
+I proposed a [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892), but it has been ignored for months now, then rejected without a reason. So I decided to publish the rule by myself, and to add many more.
 
 > Is Angular ESLint required?
 
@@ -113,10 +113,6 @@ Yes, with the [`custom-function-in-injection-context`](./docs/rules/CUSTOM_FUNCT
 > Is adding a plugin making the project heavier?
 
 No, the package has 0 dependency. It just add lint rules using TypeScript ESLint, which is already installed in the project.
-
-> Where are the tests?
-
-The tests are already done and passing in the Angular ESLint [Pull Request](https://github.com/angular-eslint/angular-eslint/pull/2892). I may migrate them here later, but it takes time.
 
 ## License
 
