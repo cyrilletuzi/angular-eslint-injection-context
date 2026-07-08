@@ -31,10 +31,10 @@
     "publish-release": "git push origin v$npm_package_version"
   },
   "devDependencies": {
-    "@types/node": "^24.13.2",
+    "@types/node": "^24.13.3",
     "eslint": "^10.6.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.0"
+    "typescript-eslint": "^8.63.0"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^8.58.1"
